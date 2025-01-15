@@ -1,0 +1,79 @@
+.resister_bg_1{
+    background-image: radial-gradient(
+      circle at 119% 33%,
+      #18520cd9 18%,
+      #8fc53f8a 50%,
+      rgba(143, 20, 174, 0.79) 80%
+    ),
+    linear-gradient(
+      295deg,
+      #d7e121 6%,
+      hsla(57.61, 97.1%, 59.41%, 0.9659601878650124) 59%
+    ),
+    linear-gradient(
+      307deg,
+      hsla(255, 6.9%, 88.63%, 0.4519960646182888) 15%,
+      hsla(157.65, 53.68%, 18.63%, 0.5127075110979757) 52%
+    ),
+    conic-gradient(
+      from 258deg at 9% 35%,
+      #92278e 84%,
+      hsla(280.71, 66.67%, 32.94%, 0.7881718897145977) 97%
+    );
+.resister_book{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center  center;
+    padding: 184px 0;
+    @media #{$mobile_device}{
+        padding: 80px 0; 
+    }
+    .resister_text{
+        h3{
+            font-size: 46px;
+            font-weight: 700;
+            line-height: 58px;
+            color: #fff;
+            margin-bottom: 56px;
+            @media #{$mobile_device}{
+                font-size: 30px;
+                line-height: 40px;
+            }
+            br{
+                @media #{$mobile_device}{
+                    display: none;
+                }
+            }
+        }
+        a{
+
+        }
+    }
+}
+.brand_area{
+    padding-top: 120px;
+    padding-bottom: 100px;
+    &.dec_padding{
+        padding-bottom: 80px;
+    }
+    @media #{$mobile_device}{
+        padding: 40px 0;
+    }
+    .brand_active{
+        .single_brand{
+            text-align: center;
+            cursor: e-resize;
+            img{
+                width: auto;
+                display: inline-block;
+                filter: contrast(0);
+                @include transition(.3s);
+            }
+            &:hover{
+                img{
+                    filter: contrast(1);
+                }
+            }
+        }
+    }
+}
