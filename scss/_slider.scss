@@ -194,6 +194,7 @@
     color: rgba(255,255,255,.08);
      font-weight: 700;
      right: -87px;
+    filter: blur(2px);
     @media #{$mid_device} {
         font-size: 90px;
     }

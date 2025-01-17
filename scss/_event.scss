@@ -1,3 +1,22 @@
+@font-face {
+    font-family: 'Eurostile';
+    src: url('fonts/Eurostile-ExtendedBold.ttf') format('truetype');
+    font-weight: extendedbold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Eurostile';
+    src: url('fonts/Eurostile-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Eurostile';
+    src: url('fonts/Eurostile-Normal.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .event_area{
     position: relative;
     padding-bottom: 120px;
@@ -60,16 +79,17 @@
     }
     .date{
         h3{
+            font-family: 'Eurostile';
             font-size: 26px;
-            font-weight: 500;
-            color: #FF0000;
+            font-weight: Bold;
+            color: #1b6985;
             @media #{$mobile_device}{
                 margin-bottom: 20px;
             }
             @media #{$tablet_device}{
                 margin-bottom: 30px;
             }
-        }
+        }          
     }
     .single_speaker{
         margin-bottom: 63px;
