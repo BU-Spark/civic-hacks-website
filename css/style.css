@@ -2,20 +2,26 @@
 /*@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,500i,600,700,700i,800,800i,900&display=swap"); */
 @font-face {
   font-family: 'Eurostile';
-  src: url('../fonts/Eurostile-ExtendedBold.ttf') format('truetype');
+  src: url('../fonts/EurostileExtended-Black.woff2') format('truetype');
   font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: 'Eurostile';
-  src: url('../fonts/Eurostile-Bold.ttf') format('truetype');
+  src: url('../fonts/Eurostile-Bold.woff2') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: 'Eurostile';
-  src: url('../fonts/Eurostile-Normal.ttf') format('truetype');
+  src: url('../fonts/EuroStyle-Normal.ttf') format('truetype');
   font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Eurostile';
+  src: url('../fonts/EurostileRegular.woff2') format('truetype');
+  font-weight: 200;
   font-style: normal;
 }
 body, html{
@@ -23,57 +29,45 @@ body, html{
   overflow-x: hidden;
 }
 .brand_active .single_brand img {
-  width: 100%; /* Or specify a custom width like 200px */
-  max-width: 150px; /* Adjust as needed */
-  height: auto; /* Maintain aspect ratio */
+  width: 100%; 
+  max-width: 150px; 
+  height: auto; 
 }
 
 button.btn.btn-link {
-  white-space: normal; /* Allows the text to wrap */
-  word-wrap: break-word; /* Prevents long words from overflowing */
+  white-space: normal; 
+  word-wrap: break-word; 
   text-align: left;
   padding-right: 5%;
 }
 
 body {
   margin: 0;
+  transform-style: preserve-3d;
+  
+  height: 100vh;
 }
 
 
-
+.slider_area .slider_bg_1 .parallax-parent {
+  transform-style: preserve-3d;
+  position: relative;
+}
 
 /* parallax "viewport" */
 .parallax {
-  height: 100vh;
-
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  perspective: 1px;
-}
-
-.parallax-layer {
   position: absolute;
-  top: 0;
+  bottom: 0.5;
+  top: 0.5;
   right: 0;
-  bottom: 0;
   left: 0;
-}
-
-.layer1 {
-  transform: translateZ(0);
-}
-
-.layer2 {
-  transform: translateZ(-1px);
+  width: 90%;
+  height: auto;
+  z-index: -0.5;
   scale: 2.2;
-  margin-top: 30%;
-  filter: blur(5px) grayscale(40%); 
+  transform: translateZ(-1px);
+  filter: blur(1px) grayscale(40%); 
   opacity: 0.8;
-}
-
-.layer3 {
-  transform: translateZ(-2px);
 }
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_extend.scss */
