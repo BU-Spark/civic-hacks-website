@@ -43,8 +43,6 @@ button.btn.btn-link {
 
 body {
   margin: 0;
-  transform-style: preserve-3d;
-  
   height: 100vh;
 }
 
