@@ -47,9 +47,6 @@ body {
 }
 
 
-.slider_area .slider_bg_1 .parallax-parent {
-  position: relative;
-}
 
 /* parallax */
 .parallax-container {
@@ -65,8 +62,12 @@ body {
   animation-timeline: scroll();
   
 }
-.header-class, .slider_overlay {
-  z-index: 10;;
+.header-class {
+  position: relative;
+  z-index: 10;
+}
+.slider_overlay {
+  z-index: 9;;
 }
 .parallax {
   position: absolute;
