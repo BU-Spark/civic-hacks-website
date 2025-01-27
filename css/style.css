@@ -82,14 +82,42 @@ body {
   z-index: 9;
 }
 
+@media screen and (max-width: 550px) {
+  .parallax {
+    filter: blur(1.2px) grayscale(50%); 
+    opacity: 0.5;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .parallax {
+    filter: blur(1px) grayscale(50%); 
+    opacity: 0.6;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .parallax {
+    filter: blur(1.4px) grayscale(50%); 
+    opacity: 0.5;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  img.parallax {
+    top: 50%;
+    scale: 1.5;
+  }
+  
+  
+}
+
 .parallax {
   position: absolute;
-  top: 20%;
+  top: 10%;
   z-index: 3;
   --parallax-speed: -10;
   transform: translateZ(-1px);
-  filter: blur(1px) grayscale(40%); 
-  opacity: 0.8;
   width: 100%;
   align-self: flex-end;
 }
@@ -104,24 +132,12 @@ body {
 @keyframes parallax {
   to {
     transform:
-      translateY(calc(var(--parallax-speed) * -150px));
-  }
-  
-}
-@media screen and (max-width: 1780px) {
-  .parallax {
-    top: 30%
+      translateY(calc(var(--parallax-speed) * -450px));
   }
   
 }
 
-@media screen and (max-width: 1550px) {
-  .parallax {
-    top: 60%;
-    scale: 2.2;
-  }
-  
-}
+
 
 
 .header-area {
