@@ -46,8 +46,16 @@ body {
   height: 100vh;
   font-weight: 700;
 }
+:focus {
+  outline: auto;
+  outline-offset: 2px; /* Space between outline and element */
+  border-radius: 5px;
+  z-index: 20;
+}
 
-
+.faq-icon {
+  max-width: 26px;
+}
 
 /* parallax */
 .parallax-container {
@@ -166,6 +174,13 @@ a.nav-logo {
   font-weight: 700;
 }
 
+@media (min-width: 767px) {
+  /* line 93, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_about.scss */
+  p.conduct {
+    font-size: 20px;
+  }
+}
+
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_extend.scss */
 .flex-center-start {
   display: -webkit-box;
@@ -255,12 +270,12 @@ a,
   transition: 0.3s;
 }
 
-/* line 23, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_reset.scss */
+/* line 23, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_reset.scss 
 a:focus,
 .button:focus, button:focus {
   text-decoration: none;
   outline: none;
-}
+}*/
 
 /* line 28, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_reset.scss */
 a:focus {
@@ -645,10 +660,10 @@ h3 {
   border: 2px solid #000000;
 }
 
-/* line 46, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_btn.scss */
+/* line 46, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_btn.scss 
 .boxed-btn-red:focus {
   outline: none;
-}
+}*/
 
 /* line 49, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_btn.scss */
 .boxed-btn-red.large-width {
@@ -711,10 +726,10 @@ h3 {
   border: 2px solid #3d9804;
 }
 
-/* line 96, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_btn.scss */
+/* line 96, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_btn.scss 
 .boxed-btn-white:focus {
   outline: none;
-}
+}*/
 
 /* line 99, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_btn.scss */
 .boxed-btn-white.large-width {
@@ -841,7 +856,6 @@ h3 {
   content: "";
   width: 128px;
   height: 4px;
-  background-image: url(../img/speakers/line.png);
   top: 50%;
   margin-bottom: 2px;
   right: -158px;
@@ -1015,7 +1029,7 @@ h3 {
 /* For screens 992px and above */
 @media (min-width: 992px) {
   .header-area .main-header-area .logo-img img {
-    width: 100px;
+    width: 100%;
   }
 }
 /* line 36, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_header.scss */
@@ -1686,7 +1700,7 @@ h3 {
 
 /* line 93, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_about.scss */
 .about_area .about_info p {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 28px;
   color: #808080;
@@ -2149,22 +2163,29 @@ h3 {
 
 /* line 30, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_faq.scss */
 .faq_area #accordion .card h5 button {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   color: #1F1F1F;
+}
+
+@media (max-width: 1400px) {
+  /* line 30, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_faq.scss */
+  .faq_area #accordion .card h5 button {
+    font-size: 30px;
+  }
 }
 
 @media (max-width: 767px) {
   /* line 30, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_faq.scss */
   .faq_area #accordion .card h5 button {
-    font-size: 13px;
+    font-size: 16px;
   }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
   /* line 30, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_faq.scss */
   .faq_area #accordion .card h5 button {
-    font-size: 18px;
+    font-size: 20px;
   }
 }
 
@@ -2177,7 +2198,7 @@ h3 {
 .faq_area #accordion .card .card-body {
   padding: 0 60px 40px 60px;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 24px;
   letter-spacing: .04rem;
 }
 
@@ -2234,12 +2255,12 @@ h3 {
   }
 }
 
-/* line 91, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_faq.scss */
+/* line 91, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_faq.scss 
 .faq_area .btn-link.focus, .faq_area .btn-link:focus {
   text-decoration: none;
   border-color: transparent;
   box-shadow: none;
-}
+}*/
 
 /* line 96, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_faq.scss */
 .faq_area .btn-link:hover {
