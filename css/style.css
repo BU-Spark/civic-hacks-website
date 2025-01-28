@@ -109,6 +109,108 @@ a.nav-logo {
 
 /* end of Slider Area */ 
 
+/* sponsors */
+
+.logo-circle {
+  background-color: white;
+  border-radius: 50%;
+  border-style: ridge;
+  border-color: #000000;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.sponsor-logos-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*flex-wrap: wrap;*/
+}
+
+.sponsor-logos {
+  max-width: 100%;
+  height: auto;
+}
+
+.tier-1 {
+  max-width: 35%;
+  padding: 3%;
+}
+
+.tier-2 {
+  max-width: 30%;
+}
+
+@media (max-width: 767px) {
+  .tier-1 {
+    max-width: 65%;
+  }
+  .tier-2 {
+    max-width: 45%;
+    margin: 2%;
+  }
+  .tier-3 {
+    max-width: 35%;
+    margin: 2%;
+  }
+  .sponsor-logos-container:nth-child(5) {
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .sponsor-logos-container .tier3 {
+    margin-top: 3%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .tier-1 {
+    max-width: 55%;
+  }
+  .tier-2 {
+    max-width: 45%;
+    margin: 3%;
+  }
+  .tier-3 {
+    max-width: 30%;
+    margin: 3%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .tier-1 {
+    max-width:  45%;
+  }
+  .tier-2 {
+    max-width:  35%;
+    margin: 5%;
+  }
+  .tier-3 {
+    max-width:  25%;
+    margin: 5%;
+  }
+}
+
+@media (min-width: 1201px) {
+  .tier-1 {
+    max-width:  45%;
+  }
+  .tier-2 {
+    max-width:  35%;
+    margin: 5%;
+  }
+  .tier-3 {
+    max-width:  25%;
+    margin: 5%;
+  }
+}
+
+
+/* end of sponsors */
+
 /* parallax */
 .parallax-container {
   position: relative;
@@ -2110,20 +2212,20 @@ h3 {
   background-repeat: no-repeat;
   background-position: center  center;
   padding:  0;
-  background-image: url(../img/bg10snippet.png);
+  background-image: url(../img/bg10.png);
 }
 
 @media (max-width: 767px) {
   /* line 4, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_resister.scss */
   .resister_book {
-    padding: 80px 0;
+    padding: 20px 0;
   }
 }
 
 /* line 13, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_resister.scss */
 .resister_book .resister_text h3 {
-  font-size: 46px;
-  font-weight: 700;
+  font-size: 80px;
+  font-weight: 900;
   line-height: 58px;
   color: #fff;
   margin: 5%;
@@ -2132,8 +2234,20 @@ h3 {
 @media (max-width: 767px) {
   /* line 13, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_resister.scss */
   .resister_book .resister_text h3 {
-    font-size: 30px;
-    line-height: 40px;
+    font-size: 35px;
+
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .resister_book .resister_text h3 {
+    font-size: 45px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .resister_book .resister_text h33 {
+    font-size: 60px;
   }
 }
 
