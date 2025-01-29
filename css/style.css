@@ -109,6 +109,26 @@ a.nav-logo {
 
 /* end of Slider Area */ 
 
+/* Agenda area */
+
+.container .double_line .schedule-title {
+  font-size: 80px;
+  font-weight: 900;
+  line-height: 58px;
+  color: #000000;
+  margin-bottom: 5%;
+  text-align: center;
+
+}
+
+.agenda-image {
+  width: 100%;
+}
+
+
+
+/* end of Agenda area */
+
 /* sponsors */
 
 .logo-circle {
@@ -995,21 +1015,21 @@ h3 {
 
 @media (max-width: 767px) {
   /* line 57, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_section_title.scss */
-  .serction_title_large h3 {
+  .serction_title_large h3, .container .double_line .schedule-title {
     font-size: 35px;
   }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
   /* line 57, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_section_title.scss */
-  .serction_title_large h3 {
+  .serction_title_large h3, .container .double_line .schedule-title {
     font-size: 45px;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
   /* line 57, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_section_title.scss */
-  .serction_title_large h3 {
+  .serction_title_large h3, .container .double_line .schedule-title {
     font-size: 60px;
   }
 }
@@ -2513,8 +2533,8 @@ h3 {
   position: relative;
   z-index: 9;
   padding-top: 100px;
-  padding-bottom: 20px;
-  margin-bottom: 100px;
+  padding-bottom: 5%;
+  margin-bottom: 50px;
 }
 
 @media (max-width: 767px) {
