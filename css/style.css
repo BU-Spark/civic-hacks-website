@@ -88,7 +88,6 @@ a.nav-logo {
   filter: blur(1.4px); 
   opacity: 0.8;
   position: relative;
-  z-index: 3;
   --parallax-speed: 6;
   transform: translateZ(-2px);
 }
