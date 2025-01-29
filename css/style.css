@@ -1276,6 +1276,7 @@ h3 {
 /* line 92, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul li a:hover {
   color: #3d9804;
+  text-shadow: 5px 8px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* line 95, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_header.scss */
