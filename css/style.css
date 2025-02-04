@@ -116,7 +116,51 @@ a.nav-logo {
   width: 100%;
 }
 
+.event_area .single_speaker.speaker-subtitle {
+  margin-bottom: 10px;
+}
 
+.agenda-subtitle {
+  text-align: center;
+}
+
+@media (max-width:575px) {
+  .content-body .event_area .single_speaker .speaker-name .col-3 span {
+    font-size: 15px;
+  }
+  .content-body .event_area .single_speaker .speaker-name .col-6 .time {
+    font-size: 16px;
+  }
+}
+
+@media (min-width:576px) {
+  .container.agenda-cont {
+      max-width: 80%
+  }
+}
+
+@media (min-width:768px) {
+  .container.agenda-cont {
+      max-width: 80%
+  }
+}
+
+@media (min-width:992px) {
+  .container.agenda-cont {
+      max-width: 80%
+  }
+}
+
+@media (min-width:1200px) {
+  .container.agenda-cont {
+      max-width: 80%
+  }
+}
+
+.underline {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
 /* end of Agenda area */
 
@@ -2584,7 +2628,7 @@ h3 {
 /* line 60, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_event.scss */
 .event_area .date h3 {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 900;
   color: #000000;
 }
 
@@ -2604,13 +2648,13 @@ h3 {
 
 /* line 72, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_event.scss */
 .event_area .single_speaker {
-  margin-bottom: 63px;
+  margin-bottom: 30px;
 }
 
 @media (max-width: 767px) {
   /* line 72, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_event.scss */
   .event_area .single_speaker {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 }
 
@@ -2646,24 +2690,31 @@ h3 {
 }
 
 /* line 92, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_event.scss */
-.event_area .single_speaker .speaker-name .heading span {
-  font-size: 26px;
+.event_area .single_speaker .speaker-name .col-3 span {
+  font-size: 20px;
   color: #1F1F1F;
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: -0.01rem;
+  text-align: left;
 }
 
 /* line 97, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_event.scss */
-.event_area .single_speaker .speaker-name .heading .time {
-  font-size: 16px;
+.event_area .single_speaker .speaker-name .col-6 .time {
+  font-size: 26px;
   font-weight: 500;
   color: #1F1F1F;
+  letter-spacing: 0.04rem;
+  text-align: center;
 }
 
 /* line 104, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_event.scss */
 .event_area .single_speaker p {
-  color: #707070;
+  color: #4c4c4c;
   font-size: 16px;
   line-height: 28px;
+  letter-spacing: 0.04rem;
+  text-align: right;
+
 }
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_footer.scss */
