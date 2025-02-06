@@ -84,27 +84,76 @@ a.nav-logo {
   transform: translateZ(-2px);
 }
 
-@media screen and (min-width: 1400px) {
+.slider_area .single_date {
+    font-size: 1.6vw;
+}
+
+@media screen and (max-width: 768px) {
   .slider_area .single_date {
-    font-size: 27px;
+    font-size: 2.5vw
   }
-  
+}
+
+@media screen and (max-width: 576px) {
+  .slider_area .single_date {
+    font-size: 5vw
+  }
 }
 
 @media screen and (max-width: 1399px) {
-  .slider_area .single_date {
-    font-size: 22px;
-  }
   .header-class .header-area .main-header-area .main-menu ul li a {
     font-size: 19px;
   }
-  
+}
+
+.single_date {
+  text-align: center;
 }
 
 .clock {
   font-size: 20px;
 }
 
+.header-area .main-header-area .main-menu ul li a.disabled:hover {
+  color: #b5b4b4;
+  text-shadow: 5px 8px 8px rgba(0, 0, 0, 0);
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1450px) {
+  .parallax-container .col-xl-9 {
+    flex: 0 0 90%;
+    max-width: 80%;
+  }
+  .parallax-container .slider_area .title_text h3 {
+    font-size: 60px;
+    line-height: 70px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  /* line 97, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
+  
+}
+
+@media (min-width: 768px) {
+  .col-md-12 {
+    width: 100%;
+  }
+  .col-md-12 {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .section_title .sub_heading {
+        margin-bottom: 10px;
+    }
+}
+
+.slider-container {
+  margin: 0 10%;
+}
 /* end of Slider Area */ 
 
 /* Agenda area */
@@ -172,6 +221,31 @@ a.nav-logo {
   text-underline-offset: 2px;
 }
 
+.event_area .single_speaker p.expo-text {
+  text-align: center;
+  line-height: 22px;
+  color: #424242;
+}
+
+.pit-logo {
+  max-width: 100%;
+}
+
+.content-body .event_area .single_speaker .speaker-name .col-6 .expo-title {
+  font-weight: 700;
+}
+
+@media (max-width:767px) {
+  .pit-logo {
+    max-width: 60%;
+  }
+  .pit-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
 /* end of Agenda area */
 
 /* sponsors */
@@ -997,23 +1071,22 @@ h3 {
   font-size: 15px;
   text-transform: uppercase;
   font-family: "Eurostile", sans-serif;
-  margin-bottom: 22px;
+  margin: 5% 0;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
   /* line 2, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_section_title.scss */
   .section_title .sub_heading {
-    margin-bottom: 10px;
+    margin: 5% 0;
   }
 }
 
 /* line 15, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_section_title.scss */
 .section_title .sub_heading2 {
-  color: #808080;
+  color: #717171;
   display: block;
-  font-size: 15px;
+  font-size: 17px;
   text-transform: uppercase;
-  font-family: "Eurostile", sans-serif;
   margin-bottom: 22px;
 }
 
@@ -1026,8 +1099,8 @@ h3 {
 
 /* line 27, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_section_title.scss */
 .section_title h3 {
-  font-size: 46px;
-  line-height: 58px;
+  font-size: 40px;
+  line-height: 50px;
   margin-bottom: 0;
 }
 
@@ -1246,7 +1319,7 @@ h3 {
 
 /* line 6, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_header.scss */
 .header-area .main-header-area {
-  padding: 0 150px;
+  padding: 0 60px;
 }
 
 @media (max-width: 767px) {
@@ -1290,7 +1363,6 @@ h3 {
 .header-area .main-header-area .main-menu {
   text-align: center;
   padding: 12px 0;
-  margin-right: 5%;
 }
 
 /* line 40, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_header.scss */
@@ -1669,9 +1741,9 @@ h3 {
   margin-bottom: 66px;
 }
 
-@media (max-width: 1400px) {
+@media (min-width: 1400px) {
   .slider_area .title_text h3 {
-    font-size: 70px;
+    font-size: 65px;
     line-height: 75px;
     margin-bottom: 30px;
   }
@@ -1698,11 +1770,12 @@ h3 {
 @media (min-width: 992px) and (max-width: 1200px) {
   /* line 97, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
   .slider_area .title_text h3 {
-    font-size: 60px;
+    font-size: 56px;
     line-height: 70px;
     margin-bottom: 20px;
   }
 }
+
 
 /* line 121, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
 .slider_area .single_date {
@@ -1729,35 +1802,35 @@ h3 {
 
 /* line 138, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
 .slider_area .countdown_time {
-  text-align: right;
+  text-align: center;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
   /* line 138, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
   .slider_area .countdown_time {
     margin-top: 40px;
-    text-align: left;
+    text-align: center;
   }
 }
 
 @media (max-width: 767px) {
   /* line 138, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
   .slider_area .countdown_time {
-    text-align: left;
+    text-align: center;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
   /* line 138, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
   .slider_area .countdown_time {
-    text-align: left;
+    text-align: center;
   }
 }
 
 /* line 150, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
 .slider_area .countdown_time .single_countdown {
   display: inline-block;
-  text-align: right;
+  text-align: center;
   margin-right: 20px;
 }
 
@@ -1823,7 +1896,7 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_about.scss */
 .about_area {
-  padding-top: 200px;
+  padding-top: 70px;
   padding-bottom: 100px;
   position: relative;
   z-index: 1;
