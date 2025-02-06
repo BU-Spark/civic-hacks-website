@@ -95,7 +95,14 @@ a.nav-logo {
   .slider_area .single_date {
     font-size: 22px;
   }
+  .header-class .header-area .main-header-area .main-menu ul li a {
+    font-size: 19px;
+  }
   
+}
+
+.clock {
+  font-size: 20px;
 }
 
 /* end of Slider Area */ 
@@ -142,6 +149,9 @@ a.nav-logo {
 @media (min-width:768px) {
   .container.agenda-cont {
       max-width: 80%
+  }
+  .content-body .event_area .single_speaker p {
+    font-size: 20px;
   }
 }
 
@@ -1280,6 +1290,7 @@ h3 {
 .header-area .main-header-area .main-menu {
   text-align: center;
   padding: 12px 0;
+  margin-right: 5%;
 }
 
 /* line 40, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_header.scss */
@@ -1769,8 +1780,8 @@ h3 {
 /* line 162, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
 .slider_area .countdown_time .single_countdown h3 {
   color: #fff;
-  font-size: 46px;
-  font-weight: 600;
+  font-size: 40px;
+  font-weight: 700;
 }
 
 @media (max-width: 767px) {
@@ -1782,7 +1793,7 @@ h3 {
 
 /* line 170, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
 .slider_area .countdown_time .single_countdown span {
-  font-size: 16px;
+  font-size: 14px;
   color: #fff;
   text-transform: capitalize;
 }
