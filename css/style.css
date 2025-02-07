@@ -614,8 +614,7 @@ a:focus {
 /* line 32, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_reset.scss */
 a:focus,
 a:hover,
-.portfolio-cat a:hover,
-.footer -menu li a:hover {
+.portfolio-cat a:hover {
   text-decoration: none;
   color: #000;
 }
