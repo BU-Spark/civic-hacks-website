@@ -187,6 +187,9 @@ a.nav-logo {
   .content-body .event_area .single_speaker .speaker-name .col-6 .time {
     font-size: 16px;
   }
+  .workshop-speaker {
+    font-size: 10px;
+  }
 }
 
 @media (min-width:576px) {
@@ -245,6 +248,10 @@ a.nav-logo {
     align-items: center;
     flex-direction: column;
   }
+}
+
+.workshop-speaker {
+  text-align: center;
 }
 /* end of Agenda area */
 
