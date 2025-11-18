@@ -1,0 +1,27 @@
+{
+  "name": "civic-hacks-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BU-Spark/civic-hacks-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BU-Spark/civic-hacks-website/issues"
+  },
+  "homepage": "https://github.com/BU-Spark/civic-hacks-website#readme",
+  "devDependencies": {
+    "astro": "^4.15.0"
+  }
+}

@@ -1,0 +1,58 @@
+---
+import { sponsors } from '../data/sponsors';
+
+const platinumSponsors = sponsors.filter(s => s.tier === 1);
+const goldSponsors = sponsors.filter(s => s.tier === 2);
+const regularSponsors = sponsors.filter(s => s.tier === 3);
+---
+
+<div class="resister_book" id="sponsors">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="resister_text text-center">
+                    <h3>Platinum Sponsors</h3>
+                </div>
+                <div class="sponsor-logos-container">
+                    {platinumSponsors.map((sponsor) => (
+                        <img 
+                            class={`sponsor-logos tier-${sponsor.tier} logo-circle`}
+                            src={sponsor.logo}
+                            alt={sponsor.alt}
+                        />
+                    ))}
+                </div>
+                {goldSponsors.length > 0 && (
+                    <>
+                        <div class="resister_text text-center">
+                            <h3>Gold Sponsors</h3>
+                        </div>
+                        <div class="sponsor-logos-container">
+                            {goldSponsors.map((sponsor) => (
+                                <img 
+                                    class={`sponsor-logos tier-${sponsor.tier} logo-circle`}
+                                    src={sponsor.logo}
+                                    alt={sponsor.alt}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
+                <div class="resister_text text-center">
+                    <h3>Sponsors</h3>
+                </div>
+                <div class="sponsor-logos-container">
+                    {regularSponsors.map((sponsor) => (
+                        <img 
+                            id={sponsor.id}
+                            class={`sponsor-logos tier-${sponsor.tier} logo-circle`}
+                            src={sponsor.logo}
+                            alt={sponsor.alt}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

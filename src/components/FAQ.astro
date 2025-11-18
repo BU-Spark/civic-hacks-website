@@ -1,0 +1,51 @@
+---
+import { faqs } from '../data/faq';
+---
+
+<div class="faq_area" id="faq">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="serction_title_large mb-95">
+                    <h3>Frequently Asked Questions</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div id="accordion">
+                    {faqs.map((faq, index) => {
+                        const headingId = `heading${index === faqs.length - 1 ? '_11' : faq.id.replace('collapse', '')}`;
+                        const isLast = index === faqs.length - 1;
+                        return (
+                            <div class="card">
+                                <div class="card-header" id={headingId}>
+                                    <h5 class="mb-0">
+                                        <button 
+                                            class={`btn btn-link ${isLast ? '' : 'collapsed'}`}
+                                            data-toggle="collapse"
+                                            data-target={`#${faq.id}`}
+                                            aria-expanded={isLast ? "true" : "false"}
+                                            aria-controls={faq.id}
+                                        >
+                                            <img src="/img/barnd/info.png" class="faq-icon" alt="" /> {faq.question}
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div 
+                                    id={faq.id}
+                                    class={`collapse ${isLast ? 'show' : ''}`}
+                                    aria-labelledby={headingId}
+                                    data-parent="#accordion"
+                                >
+                                    <div class="card-body" set:html={faq.answer.replace(/\n/g, '<br><br>')}></div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

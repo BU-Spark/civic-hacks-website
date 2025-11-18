@@ -1,0 +1,86 @@
+---
+import { schedule } from '../data/schedule';
+---
+
+<div class="content-body">
+    <div class="event_area" id="schedule">
+        <div class="container agenda-cont">
+            <div class="double_line">
+                <h2 class="schedule-title">Agenda</h2>
+                
+                {schedule.map((day) => (
+                    <>
+                        <div class="row">
+                            <div class="col-xl-5 col-lg-5">
+                                <div class="date">
+                                    <br />
+                                    <h3>{day.date}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                {day.sections.map((section) => (
+                                    <>
+                                        <div class="single_speaker speaker-subtitle">
+                                            <div class="speaker-name">
+                                                <h4 class="agenda-subtitle" set:html={section.title.replace(/\n/g, '<br>')}></h4>
+                                            </div>
+                                        </div>
+                                        {section.items.map((item) => (
+                                            item.title === "Learning Expo" ? (
+                                                <div class="single_speaker" id="expo">
+                                                    <div class="speaker-name">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-3">
+                                                                <span>{item.time}</span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="expo-title time underline">Learning Expo</div>
+                                                            </div>
+                                                            <div class="col-3 text-end">
+                                                                <p></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row align-items-center">
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 pit-cont">
+                                                                <img src="/img/sponsors/PITne-logo.png" class="pit-logo" alt="" />
+                                                            </div>
+                                                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                                                <p class="expo-text">
+                                                                    Pathways to a career in civic technology are not linear so the goal of this expo is to introduce students to the various opportunities they might want to participate in as a part of that journey.
+                                                                    Organizations across sectors at the Opportunities Expo will present opportunities including: Jobs, Internships, Training Programs, Research, Fellowship, Graduate Programs, and Volunteer Opportunities
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div class="single_speaker">
+                                                    <div class="speaker-name">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-3">
+                                                                <span>{item.time}</span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="time" set:html={item.title === "Project Submission Deadline" ? `<span class="underline">${item.title}</span>` : item.title}></div>
+                                                            </div>
+                                                            <div class="col-3 text-end">
+                                                                <p>{item.location}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        ))}
+                                    </>
+                                ))}
+                            </div>
+                        </div>
+                    </>
+                ))}
+            </div>
+        </div>
+    </div>
+</div>
+
