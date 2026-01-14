@@ -1,4 +1,4 @@
-/* MAP GRID SYSTEM - Top Down Blueprint View (Light Visuals) */
+/* MAP GRID SYSTEM - Canvas Implementation */
 .city-map-layer {
     position: absolute;
     top: 0;
@@ -8,12 +8,11 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    overflow: hidden;
-    /* Concrete Street Color */
+    /* Background color for the canvas "ground" */
     background-color: #e2e2e2;
 }
 
-/* THE SIGNAL LINE (SVG) */
+/* THE SIGNAL LINE (SVG) - Overlaid on Canvas */
 .signal-path-svg {
     position: absolute;
     top: 0;
@@ -21,74 +20,27 @@
     width: 100%;
     height: 100%;
     z-index: 10;
+    /* Above buildings */
     pointer-events: none;
     overflow: visible;
 }
 
 #signalLine {
     fill: none;
-    stroke: var(--civic-purple);
+    stroke: #deff4f;
+    /* Civic Neon Lime */
     stroke-width: 4px;
-    stroke-linecap: square;
+    /* Slightly thicker */
+    stroke-linecap: round;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
-    /* Glow */
-    filter: drop-shadow(0 0 5px var(--civic-neon));
+    /* Multilayer neon glow */
+    filter:
+        drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px #deff4f) drop-shadow(0 0 15px #deff4f);
     opacity: 1;
 }
 
-/* BLOCK BASE (The Sidewalk/Parcel) */
-.map-block-base {
-    position: absolute;
-    background: #ffffff;
-    border-radius: 0.75vw;
-    /* Rounded street corners */
-    z-index: 1;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-/* BUILDINGS (Structures) */
-.map-building {
-    position: absolute;
-    box-sizing: border-box;
-    z-index: 2;
-    /* Above the base */
-    background: var(--civic-white);
-    border: 1px solid var(--civic-black);
-    transform-origin: bottom center;
-    border-radius: 2px;
-    /* Sharp(er) buildings */
-}
-
-/* Building Height Styles (Simulated via Shadows & Translation) */
-
-/* Low: Flat structures */
-.building-low {
-    background: #f0f0f0;
-    border-color: #ccc;
-    /* Minimal shadow */
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-/* Mid: Standard structures */
-.building-mid {
-    background: #fff;
-    border: 1px solid var(--civic-black);
-    /* Medium shadow offset to simulate height */
-    box-shadow: 6px 6px 0 rgba(146, 39, 142, 0.15);
-    z-index: 2;
-}
-
-/* High: Skyscrapers */
-.building-high {
-    background: #fff;
-    border: 2px solid var(--civic-black);
-    /* Large shadow offset */
-    box-shadow: 12px 12px 0 rgba(18, 18, 18, 0.2);
-    z-index: 10;
-}
-
-/* Map Label (Street Names if we add them) */
+/* Label styles if we draw them in DOM, otherwise unused */
 .map-label {
     position: absolute;
     font-family: 'Chakra Petch', sans-serif;
