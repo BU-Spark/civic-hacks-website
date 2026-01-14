@@ -2,15 +2,16 @@
   --civic-neon: #deff4f;
   --civic-lime: #d7e121;
   --civic-purple: #92278e;
+  --civic-green: #009444;
   --civic-black: #121212;
   --civic-white: #ffffff;
   --text-main: #121212;
   --text-muted: #555555;
   --gutter: clamp(2rem, 5vw, 4rem);
-  
+
   /* HEADINGS: Chakra Petch + Local Eurostile */
   --font-head: 'Chakra Petch', 'Eurostile Extended Bold', 'Eurostile', sans-serif;
-  
+
   /* BODY: Local Eurostile Normal */
   --font-body: 'Eurostile Normal', 'Eurostile', sans-serif;
 }
@@ -19,7 +20,7 @@
 @font-face {
   font-family: 'Eurostile Extended Bold';
   src: url('../fonts/EurostileExtended-Black.woff2') format('woff2'),
-       local('Eurostile Extended Bold');
+    local('Eurostile Extended Bold');
   font-weight: 900;
   font-style: normal;
 }
@@ -27,7 +28,7 @@
 @font-face {
   font-family: 'Eurostile Normal';
   src: url('../fonts/EurostileRegular.woff2') format('woff2'),
-       url('../fonts/EuroStyle-Normal.ttf') format('truetype');
+    url('../fonts/EuroStyle-Normal.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -38,80 +39,89 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
   color: var(--text-main);
   background: var(--civic-white);
   font-family: var(--font-body);
   line-height: 1.4;
-  display: flex;
-  flex-direction: column;
   overflow-x: hidden;
+  /* Important for scroll jacking */
+  overscroll-behavior: none;
 }
 
-/* Background Motif */
+/* Background Motif - Animated Color Flow Mask */
+/* Keeping this as the underlying texture for now */
 .circuit-motif-layer {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background: linear-gradient(45deg,
+      var(--civic-neon),
+      var(--civic-purple),
+      var(--civic-lime),
+      var(--civic-green),
+      var(--civic-neon));
+  background-size: 400% 400%;
+  animation: gradient-flow 15s ease infinite;
+
+  -webkit-mask-image: url('../img/CHLogo.png');
+  mask-image: url('../img/CHLogo.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 110% 50%;
+  mask-position: 110% 50%;
+  -webkit-mask-size: 50vh;
+  mask-size: 50vh;
+  opacity: 0.25;
 }
 
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.6;
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.orb-1 {
-  width: 60vw;
-  height: 60vw;
-  background: radial-gradient(circle, rgba(222, 255, 79, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
-  top: -20%;
-  right: -20%;
-  animation: float 18s ease-in-out infinite alternate;
-}
-
-.orb-2 {
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(146, 39, 142, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
-  bottom: -10%;
-  left: -10%;
-  animation: float 22s ease-in-out infinite alternate-reverse;
-}
-
-.orb-3 {
-  width: 30vw;
-  height: 30vw;
-  background: radial-gradient(circle, rgba(0, 148, 68, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-  top: 40%;
-  left: 40%;
-  animation: pulse 12s ease-in-out infinite;
-}
-
-@keyframes float {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-30px, 40px); }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1) translate(0,0); opacity: 0.5; }
-  50% { transform: scale(1.1) translate(20px, -20px); opacity: 0.7; }
-  100% { transform: scale(1) translate(0,0); opacity: 0.5; }
-}
-
+/* HEADER */
 .site-header {
   padding: var(--gutter);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  /* Fixed to stay on top while scrolling */
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  pointer-events: none;
+  /* Let clicks pass through to content */
+
+  /* IMMERSIVE MODE: Hidden by default during horizontal scroll */
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.site-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.site-header a,
+.site-header .logo-lockup {
+  pointer-events: auto;
+  /* Re-enable clicks for interactive elements */
 }
 
 .main-logo {
@@ -135,26 +145,47 @@ body {
   border-color: var(--civic-purple);
 }
 
-.hero-flat {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  padding: 0 var(--gutter) var(--gutter);
+/* HORIZONTAL SCROLL ARCHITECTURE */
+.scroll-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  /* Hide scrollbars during the pin */
   position: relative;
+  z-index: 1;
 }
 
-.hero-grid {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto; /* Changed from 1.2fr 0.8fr to push right column further right */
-  gap: 8rem; /* Increased gap significantly */
+.horizontal-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  width: 400%;
+  /* 4 Panels x 100% width */
+  will-change: transform;
+}
+
+/* PANELS */
+.panel {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.panel-content {
+  max-width: 1400px;
+  /* Reduced from 1400 to match design better if needed, but keeping 1400 for consistency */
+  width: 100%;
   position: relative;
   z-index: 2;
 }
 
+/* TYPOGRAPHY COMPONENTS */
 .mega-headline {
   font-family: var(--font-head);
   font-weight: 700;
@@ -174,42 +205,35 @@ body {
   letter-spacing: 0.05em;
 }
 
-.hero-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  min-width: 320px; /* Slightly wider minimum width */
-  padding-left: 3rem; /* Increased padding */
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(3rem, 8vw, 6rem);
+  text-transform: uppercase;
+  color: var(--civic-black);
+  margin: 0 0 1rem 0;
+  line-height: 0.9;
+}
+
+.section-text {
+  font-family: var(--font-body);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--text-main);
+  max-width: 800px;
+  line-height: 1.25;
+}
+
+.hero-info-snippet {
+  margin-top: 2rem;
+  font-family: var(--font-head);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--civic-purple);
+  padding-left: 2rem;
   border-left: 4px solid var(--civic-neon);
 }
 
-.info-block {
-  position: relative;
-}
-
-.label {
-  display: block;
-  font-family: var(--font-head);
-  color: var(--civic-purple);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.875rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-
-.info-text {
-  margin: 0;
-  font-size: 1.35rem;
-  font-weight: 400;
-  line-height: 1.25;
-  color: var(--civic-black);
-}
-
-.cta-block {
-  margin-top: 1.5rem;
-}
-
+/* CTA BUTTONS */
 .flat-cta {
   display: inline-block;
   background: var(--civic-black);
@@ -231,44 +255,195 @@ body {
   box-shadow: 4px 4px 0 var(--civic-lime);
 }
 
-.micro-copy {
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  font-weight: 400;
-}
-
-.site-footer {
-  padding: 1rem var(--gutter);
-  font-size: 0.875rem;
-  color: var(--text-muted);
+/* VERTICAL HUB SECTION */
+.vertical-hub {
   position: relative;
   z-index: 10;
-  text-align: center;
+  /* Above the horizontal scroll container if needed */
+  background: var(--civic-white);
+  padding: 6rem var(--gutter);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.site-footer a {
+.hub-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.info-block .label {
+  display: block;
+  font-family: var(--font-head);
+  color: var(--civic-purple);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.info-block .info-text {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--civic-black);
+}
+
+.footer-bottom {
+  margin-top: 4rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.footer-bottom a {
   color: var(--civic-purple);
   text-decoration: none;
   font-weight: 700;
 }
 
+/* MOBILE RESPONSIVENESS ADJUSTMENTS */
 @media (max-width: 900px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
+
+  .mega-headline,
+  .section-title {
+    font-size: 14vw;
+  }
+
+  .hub-container {
     gap: 3rem;
-    text-align: center;
   }
-  
-  .hero-info {
-    padding-left: 0;
-    border-left: none;
-    align-items: center;
-    border-top: 4px solid var(--civic-neon);
-    padding-top: 2rem;
+
+  .info-block .info-text {
+    font-size: 1.5rem;
   }
-  
-  .mega-headline {
-    font-size: 18vw;
-  }
+
+  /* Note: Full Mobile Logic (Vertical Stack) will be handled via CSS/JS later. 
+     For now, we let the horizontal scroll work as a proof of concept. */
+}
+
+/* --- NEW CONTENT STYLES --- */
+
+/* Glass Cards for Readability over City Map */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  /* Frosty white */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+
+.highlight {
+  color: var(--civic-purple);
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.3em;
+  background: var(--civic-neon);
+  z-index: -1;
+  opacity: 0.6;
+}
+
+/* Tracks Grid */
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.track-card {
+  background: var(--civic-black);
+  color: var(--civic-white);
+  padding: 2rem;
+  border: 1px solid var(--civic-lime);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.track-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 8px 8px 0 var(--civic-purple);
+}
+
+.track-icon {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--civic-neon);
+}
+
+.track-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.track-card p {
+  margin: 0;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+/* Agenda / Logistics */
+.logistics-section {
+  width: 100%;
+  border-left: 4px solid var(--civic-neon);
+  padding-left: 2rem;
+}
+
+.program-header {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.agenda-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.agenda-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+}
+
+.agenda-item .time {
+  font-weight: 700;
+  color: var(--civic-purple);
+  width: 140px;
+  /* fixed width for alignment */
+  flex-shrink: 0;
+}
+
+.logistics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: 100%;
 }
