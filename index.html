@@ -19,6 +19,14 @@
   <!-- GSAP Core & ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Lenis for Smooth Scroll -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    if (history.scrollRestoration) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
 </head>
 
 <body>
@@ -41,23 +49,25 @@
 
   <!-- Horizontal Scroll Wrapper -->
   <div class="scroll-container">
-    <div class="horizontal-wrapper">
+    <!-- LAYER 1: The Blueprint City Map (Fixed/Absolute Background) -->
+    <div class="city-map-layer" id="cityMap">
+      <!-- SVG for the Signal Line -->
+      <svg class="signal-path-svg" id="signalSVG" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <!-- Path will be generated/injected via JS -->
+        <path id="signalLine" d="M0,500 L100,500" />
+      </svg>
+    </div>
 
-      <!-- LAYER 1: The Blueprint City Map (Absolute Positioned) -->
-      <div class="city-map-layer" id="cityMap">
-        <!-- SVG for the Signal Line -->
-        <svg class="signal-path-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <!-- Path will be generated/injected via JS to match the grid -->
-          <path id="signalLine" d="M0,500 L100,500" />
-        </svg>
-      </div>
+    <div class="horizontal-wrapper">
+      <!-- Panel 1: The Hook (Hero) -->
 
       <!-- Panel 1: The Hook (Hero) -->
       <section class="panel panel-hero">
         <div class="panel-content">
           <h1 class="mega-headline">CIVIC<br>HACKS<br><span class="year-accent">2026</span></h1>
           <div class="hero-info-snippet">
-            <p>Feb 21–22 · Boston University</p>
+            <p>Empowering students to turn code into impact.</p>
+            <p>Feb 21–22, 2026 · Boston University</p>
           </div>
         </div>
       </section>
@@ -66,9 +76,10 @@
       <section class="panel panel-vision">
         <div class="panel-content">
           <div class="glass-card">
-            <h2 class="section-title">The Signal</h2>
+            <h2 class="section-title">The Mission</h2>
             <p class="section-text">
-              Cities produce data. People produce needs. <span class="highlight">Civic Hacks</span> is the bridge.
+              Civic Hacks is New England’s largest civic tech hackathon, where students use technology to tackle real
+              challenges in <span class="highlight">government, justice, education, and the environment.</span>
             </p>
           </div>
         </div>
@@ -77,23 +88,25 @@
       <!-- Panel 3: The Tracks (What) -->
       <section class="panel panel-tracks">
         <div class="panel-content">
-          <h2 class="section-title">The Circuit</h2>
+          <h2 class="section-title">The Tracks</h2>
           <div class="tracks-grid">
             <div class="track-card">
-              <h3>Health</h3>
-              <p>Improving access and outcomes.</p>
+              <h3>EcoHack</h3>
+              <p>Build solutions that address environmental and sustainability challenges using science, data, and
+                technology.</p>
             </div>
             <div class="track-card">
-              <h3>Environment</h3>
-              <p>Sustainable solutions.</p>
+              <h3>JusticeHack</h3>
+              <p>Create tools that improve access to justice and promote fairness in legal and criminal justice systems.
+              </p>
             </div>
             <div class="track-card">
-              <h3>Equity</h3>
-              <p>Building fair systems.</p>
+              <h3>CityHack</h3>
+              <p>Design technology-driven solutions to improve urban life, public policy, and social systems.</p>
             </div>
             <div class="track-card">
-              <h3>Education</h3>
-              <p>Empowering learners.</p>
+              <h3>EduHack</h3>
+              <p>Develop innovative tools to support students, educators, and learning environments.</p>
             </div>
           </div>
         </div>
@@ -102,40 +115,102 @@
       <!-- Panel 4: The Transition (Arrival) -->
       <section class="panel panel-transition">
         <div class="panel-content">
-          <h2 class="section-title" style="text-align: right; width: 100%;">Arrival<br>At The Hub</h2>
+
+          <h2 class="section-title" style="text-align: right; width: 100%;">Arrival:<br>665 Comm Ave</h2>
+          <p class="arrival-subtext">The BU Center for Computing & Data Sciences</p>
         </div>
       </section>
 
     </div>
   </div>
 
-  <!-- Vertical Section (Logistics/Hub) -->
   <footer class="vertical-hub">
     <div class="hub-container">
 
-      <!-- PROGRAM AGENDA -->
-      <div class="logistics-section">
-        <h3 class="program-header">Programming</h3>
-        <ul class="agenda-list">
-          <li class="agenda-item"><span class="time">Sat 9:00 AM</span> <span class="event">Opening Ceremony</span></li>
-          <li class="agenda-item"><span class="time">Sat 12:00 PM</span> <span class="event">Hacking Begins</span></li>
-          <li class="agenda-item"><span class="time">Sat 6:00 PM</span> <span class="event">Workshops & Dinner</span>
-          </li>
-          <li class="agenda-item"><span class="time">Sun 12:00 PM</span> <span class="event">Submission Deadline</span>
-          </li>
-          <li class="agenda-item"><span class="time">Sun 3:00 PM</span> <span class="event">Demos & Awards</span></li>
-        </ul>
-      </div>
-
+      <!-- LOGISTICS GRID -->
       <div class="logistics-grid">
         <div class="info-block">
-          <span class="label">Location</span>
-          <p class="info-text">Boston University<br>CCDS Building,<br>665 Commonwealth Ave</p>
+          <span class="label">Date</span>
+          <p class="info-text">February 21st – 22nd, 2026</p>
         </div>
-
         <div class="info-block">
-          <span class="label">Sponsors</span>
-          <p class="info-text">BU Spark!<br>Red Hat<br>Liberty Mutual</p>
+          <span class="label">Location</span>
+          <p class="info-text">665 Commonwealth Ave<br>Boston, MA 02215</p>
+        </div>
+      </div>
+
+      <!-- WORKSHOPS -->
+      <div class="logistics-section">
+        <h3 class="program-header">Programming & Workshops</h3>
+        <div class="coming-soon-box">
+          <img src="img/previous-hackathon.png" alt="Previous Hackathon Vibes" class="placeholder-img">
+          <p>Workshop schedule and final programming are currently in the works.</p>
+          <span class="status-tag">Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- FAQ SECTION -->
+      <div class="logistics-section faq-section">
+        <h3 class="program-header">FAQ</h3>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <button class="faq-question">What is a hackathon? Is there actual hacking?</button>
+            <div class="faq-answer">
+              <p>A hackathon is an event where students "hack" together creative solutions in 24-48 hours—like apps,
+                chatbots, interactive dashboards, IoT devices, games, ML models, AI agents, or data science projects.
+                There's no malicious hacking involved.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">Do I need experience?</button>
+            <div class="faq-answer">
+              <p>No! This hackathon is open to all experience levels. We have a dedicated track for beginners and
+                first-time hackers to help you get started. Non-technical students are also welcome and can join teams
+                with skills like design, art, or other areas. Mentors and workshops will be available for every level.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">How do I join a team?</button>
+            <div class="faq-answer">
+              <p>Come solo or with friends! We'll have team formation activities at the event, and you can also join the
+                Discord beforehand to connect with others looking for a team.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">What is the team size limit?</button>
+            <div class="faq-answer">
+              <p>Teams can have up to 5 members. We'll provide team-matching activities to help everyone find a group.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">My team won but I wasn’t listed on their DevPost submission.</button>
+            <div class="faq-answer">
+              <p>You must be listed on your team’s DevPost submission to qualify for a prize.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">Is there a code of conduct?</button>
+            <div class="faq-answer">
+              <p>All participants are expected to follow the <a
+                  href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf" target="_blank">MLH Code of Conduct</a>
+                throughout the duration of the hackathon.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPONSORS -->
+      <div class="logistics-section sponsors-section">
+        <h3 class="program-header">Our Partners</h3>
+        <div class="sponsors-list">
+          <span>Yawkey Foundation</span>
+          <span>PIT-UN</span>
+          <span>Brandeis RJxTP</span>
+          <span>Redbull</span>
+          <span>Boston Climate Action Networks</span>
+          <span>BU Spark!</span>
         </div>
       </div>
 

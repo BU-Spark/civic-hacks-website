@@ -3,13 +3,12 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    /* Background color for the canvas "ground" */
-    background-color: #e2e2e2;
+    background-color: #8c768f;
 }
 
 /* THE SIGNAL LINE (SVG) - Overlaid on Canvas */
