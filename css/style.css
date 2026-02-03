@@ -7,10 +7,10 @@
   --text-main: #121212;
   --text-muted: #555555;
   --gutter: clamp(2rem, 5vw, 4rem);
-  
+
   /* HEADINGS: Chakra Petch + Local Eurostile */
   --font-head: 'Chakra Petch', 'Eurostile Extended Bold', 'Eurostile', sans-serif;
-  
+
   /* BODY: Local Eurostile Normal */
   --font-body: 'Eurostile Normal', 'Eurostile', sans-serif;
 }
@@ -19,7 +19,7 @@
 @font-face {
   font-family: 'Eurostile Extended Bold';
   src: url('../fonts/EurostileExtended-Black.woff2') format('woff2'),
-       local('Eurostile Extended Bold');
+    local('Eurostile Extended Bold');
   font-weight: 900;
   font-style: normal;
 }
@@ -27,7 +27,7 @@
 @font-face {
   font-family: 'Eurostile Normal';
   src: url('../fonts/EurostileRegular.woff2') format('woff2'),
-       url('../fonts/EuroStyle-Normal.ttf') format('truetype');
+    url('../fonts/EuroStyle-Normal.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -95,14 +95,30 @@ body {
 }
 
 @keyframes float {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-30px, 40px); }
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(-30px, 40px);
+  }
 }
 
 @keyframes pulse {
-  0% { transform: scale(1) translate(0,0); opacity: 0.5; }
-  50% { transform: scale(1.1) translate(20px, -20px); opacity: 0.7; }
-  100% { transform: scale(1) translate(0,0); opacity: 0.5; }
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.1) translate(20px, -20px);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.5;
+  }
 }
 
 .site-header {
@@ -121,6 +137,8 @@ body {
 }
 
 .minimal-link {
+  display: inline-block;
+  width: fit-content;
   color: var(--text-main);
   text-decoration: none;
   text-transform: uppercase;
@@ -148,8 +166,10 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr auto; /* Changed from 1.2fr 0.8fr to push right column further right */
-  gap: 8rem; /* Increased gap significantly */
+  grid-template-columns: 1fr auto;
+  /* Changed from 1.2fr 0.8fr to push right column further right */
+  gap: 8rem;
+  /* Increased gap significantly */
   align-items: center;
   position: relative;
   z-index: 2;
@@ -178,8 +198,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
-  min-width: 320px; /* Slightly wider minimum width */
-  padding-left: 3rem; /* Increased padding */
+  min-width: 320px;
+  /* Slightly wider minimum width */
+  padding-left: 3rem;
+  /* Increased padding */
   border-left: 4px solid var(--civic-neon);
 }
 
@@ -259,7 +281,7 @@ body {
     gap: 3rem;
     text-align: center;
   }
-  
+
   .hero-info {
     padding-left: 0;
     border-left: none;
@@ -267,7 +289,7 @@ body {
     border-top: 4px solid var(--civic-neon);
     padding-top: 2rem;
   }
-  
+
   .mega-headline {
     font-size: 18vw;
   }
