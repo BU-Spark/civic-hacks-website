@@ -64,8 +64,7 @@ function initScroll() {
     if (window.initCityCanvas) {
       initCityCanvas(".city-map-layer");
 
-      // Now animate the signal path with the horizontal timeline
-      // NOTE: animateSignalPath creates its own timeline/ScrollTrigger now
+      // Start the horizontal ScrollTrigger (camera + wrapper movement)
       if (window.animateSignalPath) {
         animateSignalPath();
       }

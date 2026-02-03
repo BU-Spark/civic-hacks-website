@@ -5,35 +5,32 @@ const DEBUG_CITY = false;
 
 let ctx;
 let canvas;
-let blocks = [];    // {x, y, w, h} - City blocks (leaf nodes of BSP)
+let blocks = [];    // {x, y, w, h, kind, tint, parkTrees, parkPaths} - City blocks (leaf nodes of BSP)
 let buildings = []; // {x, y, w, h, depth} - Buildings within blocks
 let streetH = [];   // {y, xStart, xEnd} - Horizontal street center lines
 let streetV = [];   // {x, yStart, yEnd} - Vertical street center lines
-let signalPathData = []; // [DEBUG] Stored path points for testing <!-- id: debug_points -->
 
 let cityMapEl;
 let scrollContainerEl;
 let wrapperEl;
-let svgEl;
-let pathEl;
-let headEl;
 
 let isMapInView = true;
-let renderTickerAdded = false;
-let idleFrames = 0;
-let lastScrollY = 0;
+let renderRafId = 0;
 
-const IDLE_FRAME_LIMIT = 8;
-const BAKE_SCALE = 0.75;
+// Higher-res bake + devicePixelRatio scaling (with caps to keep memory reasonable).
+const DPR_CAP = 2;
+const BASE_BAKE_SCALE = 0.86;
+const MAX_BAKE_CANVAS_AREA_PX = 14_000_000; // ~56MB @ 4 bytes/px
+
+// "Zoom-out": show more of the world in a single viewport.
+// (100vw viewport displays this many "vw" units of the city world.)
+const VIEWPORT_WORLD_W = 136;
+const PARK_CHANCE = 0.075;
+const CROSSWALK_CHANCE = 0.55;
 
 // Camera State
-let currentCameraX = 0; // The smoothed camera position (in vw)
-let targetCameraX = 0;  // The actual position of the signal head (in vw)
-let currentMapScale = 1.0; // Dynamic zoom (1.0 = normal, 0.9 = zoomed out)
-let targetMapScale = 1.0;
-const CAM_LERP = 0.22;  // Smoother camera response
-const SCALE_LERP = 0.12; // Faster zoom transition
-
+let currentCameraX = 0; // Viewport left edge (in vw)
+let targetCameraX = 0;  // Desired viewport left edge (in vw)
 
 const MAP_W = 400; // vw
 const MAP_H = 100; // vh
@@ -43,6 +40,16 @@ const STREET_GAP = 2; // vw/vh gap between blocks
 const CONFIG = {
     streetColor: "#8c768f",       // Muted Mauve (Matches CSS)
     blockColor: "#4a3f4c",        // Darker Mauve Base
+    blockStroke: "rgba(0,0,0,0.16)",
+    parkFill: "#32463c",
+    parkEdge: "rgba(222,255,79,0.22)",
+    parkTree: "rgba(222,255,79,0.22)",
+    parkPath: "rgba(255,255,255,0.10)",
+    sidewalkFill: "rgba(255,255,255,0.10)",
+    sidewalkEdge: "rgba(0,0,0,0.14)",
+    sidewalkJoint: "rgba(0,0,0,0.16)",
+    crosswalkStripe: "rgba(255,255,255,0.28)",
+    crosswalkShadow: "rgba(0,0,0,0.14)",
     buildingStroke: "rgba(0,0,0,0.2)",
     roofFill: "rgba(255,255,255,1)",
     shadowFill: "rgba(0,0,0,0.18)",
@@ -69,6 +76,33 @@ const CONFIG = {
     ]
 };
 
+function clampNum(v, min, max) {
+    return Math.min(max, Math.max(min, v));
+}
+
+function getDpr() {
+    const dpr = (typeof window !== "undefined" && window.devicePixelRatio) ? window.devicePixelRatio : 1;
+    return clampNum(dpr || 1, 1, DPR_CAP);
+}
+
+function computeBakeScale() {
+    if (!canvas) return BASE_BAKE_SCALE;
+    const baseUx = canvas.width / 100;
+    const baseUy = canvas.height / MAP_H;
+    if (!Number.isFinite(baseUx) || !Number.isFinite(baseUy) || baseUx <= 0 || baseUy <= 0) return BASE_BAKE_SCALE;
+
+    let scale = BASE_BAKE_SCALE;
+    const w = MAP_W * baseUx * scale;
+    const h = MAP_H * baseUy * scale;
+    const area = w * h;
+
+    if (area > MAX_BAKE_CANVAS_AREA_PX) {
+        scale *= Math.sqrt(MAX_BAKE_CANVAS_AREA_PX / area);
+    }
+
+    return clampNum(scale, 0.45, 1);
+}
+
 function initCityCanvas(containerSelector) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
@@ -85,25 +119,7 @@ function initCityCanvas(containerSelector) {
     });
     container.appendChild(canvas);
 
-    // SVG for Signal (Already in HTML now, just get references)
-    svgEl = document.getElementById("signalSVG");
-    pathEl = document.getElementById("signalLine");
-    headEl = document.getElementById("signalHead");
-
-    if (svgEl && !headEl) {
-        // Create head if not in HTML
-        const svgNS = "http://www.w3.org/2000/svg";
-        const newHead = document.createElementNS(svgNS, "circle");
-        newHead.id = "signalHead";
-        newHead.setAttribute("r", "1.5");
-        newHead.setAttribute("fill", "#00ffcc");
-        newHead.style.filter = "drop-shadow(0 0 5px #00ffcc)";
-        newHead.style.opacity = "0";
-        svgEl.appendChild(newHead);
-        headEl = newHead;
-    }
-
-    ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d", { alpha: false });
 
     new ResizeObserver(() => resize()).observe(container);
     resize();
@@ -117,13 +133,14 @@ let scrollListenerAttached = false;
 let visibilityObserver;
 
 function startRendering() {
-    idleFrames = 0;
-    lastScrollY = window.scrollY || 0;
-    render();
+    requestRender();
 }
 
 function stopRendering() {
-    renderTickerAdded = false;
+    if (renderRafId) {
+        cancelAnimationFrame(renderRafId);
+        renderRafId = 0;
+    }
 }
 
 function attachScrollListener() {
@@ -164,17 +181,19 @@ function setupVisibilityObserver(target) {
 function resize() {
     if (!canvas) return;
     const rect = canvas.parentElement.getBoundingClientRect();
-    // Canvas is now 1 VIEWPORT wide, not the whole map
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    const dpr = getDpr();
 
-    const svg = svgEl || document.getElementById("signalSVG");
-    // The SVG viewport is the FIXED screen, but we will move its viewBox
-    if (svg) svg.setAttribute("viewBox", `0 0 100 ${MAP_H}`);
+    // Canvas is now 1 VIEWPORT wide, not the whole map (but DPR-correct).
+    canvas.width = Math.max(1, Math.round(rect.width * dpr));
+    canvas.height = Math.max(1, Math.round(rect.height * dpr));
+
+    if (ctx) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+    }
 
     if (blocks.length === 0) {
         generateCity();
-        generateSignalPath();
     }
     bakeCity();
 
@@ -268,7 +287,34 @@ function bspSplit(x, y, w, h) {
 
 function createBlock(x, y, w, h) {
     const tint = CONFIG.blockTints[Math.floor(Math.random() * CONFIG.blockTints.length)];
-    blocks.push({ x, y, w, h, tint });
+    const isPark = w > 10 && h > 10 && Math.random() < PARK_CHANCE;
+
+    if (isPark) {
+        const padX = Math.max(1.2, w * 0.12);
+        const padY = Math.max(1.2, h * 0.12);
+        const area = w * h;
+
+        const treeCount = clampNum(Math.round(area / 18), 8, 44);
+        const parkTrees = Array.from({ length: treeCount }, () => ({
+            x: x + padX + Math.random() * Math.max(0.1, w - padX * 2),
+            y: y + padY + Math.random() * Math.max(0.1, h - padY * 2),
+            r: 0.12 + Math.random() * 0.16
+        }));
+
+        const parkPaths = [];
+        const pathCount = clampNum(Math.round(area / 80), 1, 3);
+        for (let i = 0; i < pathCount; i++) {
+            parkPaths.push({
+                a: { x: x + padX, y: y + padY + Math.random() * Math.max(0.1, h - padY * 2) },
+                b: { x: x + w - padX, y: y + padY + Math.random() * Math.max(0.1, h - padY * 2) },
+            });
+        }
+
+        blocks.push({ x, y, w, h, kind: "park", tint: CONFIG.parkFill, parkTrees, parkPaths });
+        return;
+    }
+
+    blocks.push({ x, y, w, h, kind: "block", tint });
 
     // Place buildings INSIDE this block
     // Reduced padding for more density
@@ -372,6 +418,220 @@ function createBlock(x, y, w, h) {
 /* --- OPTIMIZATION: BAKE STATIC GROUND --- */
 let offscreenCanvas;
 let offscreenCtx;
+let bakedPixelsPerVw = 0;
+let bakedViewportPx = 0;
+
+function drawCrosswalks(ctxB, ux, uy) {
+    const roadWpxX = STREET_GAP * ux;
+    const roadWpxY = STREET_GAP * uy;
+
+    const base = (ux + uy) * 0.5;
+    const bandPx = Math.max(10, Math.round(base * 0.95));
+    const stripePx = Math.max(2, Math.round(bandPx * 0.18));
+    const gapPx = Math.max(2, Math.round(stripePx * 0.9));
+    const count = Math.max(3, Math.min(8, Math.floor((bandPx + gapPx) / (stripePx + gapPx))));
+    const bandW = count * stripePx + (count - 1) * gapPx;
+
+    const drawAcrossHorizontalRoad = (cx, cy) => {
+        const h = Math.max(4, Math.round(roadWpxY * 0.96));
+        const y0 = (cy - h / 2) | 0;
+        const xStart = (cx - bandW / 2) | 0;
+
+        for (let i = 0; i < count; i++) {
+            const x = xStart + i * (stripePx + gapPx);
+            ctxB.fillRect(x, y0, stripePx, h);
+        }
+    };
+
+    const drawAcrossVerticalRoad = (cx, cy) => {
+        const w = Math.max(4, Math.round(roadWpxX * 0.96));
+        const x0 = (cx - w / 2) | 0;
+        const yStart = (cy - bandW / 2) | 0;
+
+        for (let i = 0; i < count; i++) {
+            const y = yStart + i * (stripePx + gapPx);
+            ctxB.fillRect(x0, y, w, stripePx);
+        }
+    };
+
+    ctxB.save();
+
+    // Crosswalks at intersections (sampled to avoid visual overload).
+    for (let i = 0; i < streetH.length; i++) {
+        const h = streetH[i];
+        for (let j = 0; j < streetV.length; j++) {
+            const v = streetV[j];
+            if (v.x < h.xStart || v.x > h.xEnd) continue;
+            if (h.y < v.yStart || h.y > v.yEnd) continue;
+            if (Math.random() > CROSSWALK_CHANCE) continue;
+
+            const cx = v.x * ux;
+            const cy = h.y * uy;
+            const inset = Math.max(2, Math.round(stripePx * 0.6));
+            const offX = roadWpxX * 0.5 + bandW * 0.5 + inset;
+            const offY = roadWpxY * 0.5 + bandW * 0.5 + inset;
+            const bandHalfWorldX = (bandW * 0.5) / ux;
+            const bandHalfWorldY = (bandW * 0.5) / uy;
+            const offXWorld = offX / ux;
+            const offYWorld = offY / uy;
+
+            const canHLeft =
+                (v.x - offXWorld - bandHalfWorldX) >= h.xStart &&
+                (v.x - offXWorld + bandHalfWorldX) <= h.xEnd;
+            const canHRight =
+                (v.x + offXWorld - bandHalfWorldX) >= h.xStart &&
+                (v.x + offXWorld + bandHalfWorldX) <= h.xEnd;
+            const canVTop =
+                (h.y - offYWorld - bandHalfWorldY) >= v.yStart &&
+                (h.y - offYWorld + bandHalfWorldY) <= v.yEnd;
+            const canVBottom =
+                (h.y + offYWorld - bandHalfWorldY) >= v.yStart &&
+                (h.y + offYWorld + bandHalfWorldY) <= v.yEnd;
+
+            ctxB.fillStyle = CONFIG.crosswalkShadow;
+            if (canHLeft) drawAcrossHorizontalRoad(cx - offX + 0.75, cy + 0.75);
+            if (canHRight) drawAcrossHorizontalRoad(cx + offX + 0.75, cy + 0.75);
+            if (canVTop) drawAcrossVerticalRoad(cx + 0.75, cy - offY + 0.75);
+            if (canVBottom) drawAcrossVerticalRoad(cx + 0.75, cy + offY + 0.75);
+
+            ctxB.fillStyle = CONFIG.crosswalkStripe;
+            if (canHLeft) drawAcrossHorizontalRoad(cx - offX, cy);
+            if (canHRight) drawAcrossHorizontalRoad(cx + offX, cy);
+            if (canVTop) drawAcrossVerticalRoad(cx, cy - offY);
+            if (canVBottom) drawAcrossVerticalRoad(cx, cy + offY);
+        }
+    }
+
+    ctxB.restore();
+}
+
+function drawSidewalk(ctxB, x, y, w, h, ux, uy, radiusPx, widthPx) {
+    const x0 = x * ux;
+    const y0 = y * uy;
+    const w0 = w * ux;
+    const h0 = h * uy;
+
+    ctxB.save();
+
+    // Wide stroke: inner half is covered by the block fill, leaving a curb/sidewalk outside.
+    ctxB.strokeStyle = CONFIG.sidewalkFill;
+    ctxB.lineWidth = widthPx * 2;
+    ctxB.beginPath();
+    ctxB.roundRect(x0, y0, w0, h0, radiusPx);
+    ctxB.stroke();
+
+    // Curb edge
+    ctxB.strokeStyle = CONFIG.sidewalkEdge;
+    ctxB.lineWidth = Math.max(1, Math.round(widthPx * 0.9));
+    ctxB.beginPath();
+    ctxB.roundRect(x0, y0, w0, h0, radiusPx);
+    ctxB.stroke();
+
+    // Sidewalk slab joints (sectioned edges).
+    const jointSpacing = Math.max(16, Math.round(((ux + uy) * 0.5) * 0.95));
+    const jointPad = Math.max(2, Math.round(widthPx * 0.7));
+    const xMin = x0 + radiusPx + jointPad;
+    const xMax = x0 + w0 - radiusPx - jointPad;
+    const yMin = y0 + radiusPx + jointPad;
+    const yMax = y0 + h0 - radiusPx - jointPad;
+
+    ctxB.strokeStyle = CONFIG.sidewalkJoint;
+    ctxB.lineWidth = 1;
+    ctxB.lineCap = "round";
+
+    const offsetX = Math.random() * jointSpacing * 0.5;
+    const offsetY = Math.random() * jointSpacing * 0.5;
+
+    // Top edge joints
+    for (let xj = xMin + offsetX; xj < xMax; xj += jointSpacing) {
+        const xk = xj | 0;
+        ctxB.beginPath();
+        ctxB.moveTo(xk, (y0 - widthPx) | 0);
+        ctxB.lineTo(xk, (y0 + 1) | 0);
+        ctxB.stroke();
+    }
+
+    // Bottom edge joints
+    for (let xj = xMin + offsetX; xj < xMax; xj += jointSpacing) {
+        const xk = xj | 0;
+        ctxB.beginPath();
+        ctxB.moveTo(xk, (y0 + h0 - 1) | 0);
+        ctxB.lineTo(xk, (y0 + h0 + widthPx) | 0);
+        ctxB.stroke();
+    }
+
+    // Left edge joints
+    for (let yj = yMin + offsetY; yj < yMax; yj += jointSpacing) {
+        const yk = yj | 0;
+        ctxB.beginPath();
+        ctxB.moveTo((x0 - widthPx) | 0, yk);
+        ctxB.lineTo((x0 + 1) | 0, yk);
+        ctxB.stroke();
+    }
+
+    // Right edge joints
+    for (let yj = yMin + offsetY; yj < yMax; yj += jointSpacing) {
+        const yk = yj | 0;
+        ctxB.beginPath();
+        ctxB.moveTo((x0 + w0 - 1) | 0, yk);
+        ctxB.lineTo((x0 + w0 + widthPx) | 0, yk);
+        ctxB.stroke();
+    }
+
+    ctxB.restore();
+}
+
+function drawParkDetails(ctxB, b, ux, uy, radiusPx) {
+    const x = b.x * ux;
+    const y = b.y * uy;
+    const w = b.w * ux;
+    const h = b.h * uy;
+
+    ctxB.save();
+
+    // Clip to the park pad (so details don't leak onto streets).
+    ctxB.beginPath();
+    ctxB.roundRect(x, y, w, h, radiusPx);
+    ctxB.clip();
+
+    // Paths
+    if (b.parkPaths && b.parkPaths.length > 0) {
+        ctxB.strokeStyle = CONFIG.parkPath;
+        ctxB.lineWidth = Math.max(1, Math.round(((ux + uy) * 0.5) * 0.03));
+        ctxB.setLineDash([Math.max(8, Math.round(ux * 0.7)), Math.max(8, Math.round(ux * 0.55))]);
+        ctxB.lineCap = "round";
+        b.parkPaths.forEach((p) => {
+            ctxB.beginPath();
+            ctxB.moveTo(p.a.x * ux, p.a.y * uy);
+            ctxB.lineTo(p.b.x * ux, p.b.y * uy);
+            ctxB.stroke();
+        });
+        ctxB.setLineDash([]);
+    }
+
+    // Trees
+    if (b.parkTrees && b.parkTrees.length > 0) {
+        const rBase = (ux + uy) * 0.5;
+        ctxB.fillStyle = CONFIG.parkTree;
+        b.parkTrees.forEach((t) => {
+            const px = t.x * ux;
+            const py = t.y * uy;
+            const r = Math.max(1, Math.round(t.r * rBase));
+            ctxB.beginPath();
+            ctxB.arc(px, py, r, 0, Math.PI * 2);
+            ctxB.fill();
+        });
+    }
+
+    // Soft edge highlight (inside the clip).
+    ctxB.beginPath();
+    ctxB.roundRect(x, y, w, h, radiusPx);
+    ctxB.strokeStyle = CONFIG.parkEdge;
+    ctxB.lineWidth = Math.max(1, Math.round(((ux + uy) * 0.5) * 0.035));
+    ctxB.stroke();
+
+    ctxB.restore();
+}
 
 function bakeCity() {
     if (!offscreenCanvas) {
@@ -379,15 +639,21 @@ function bakeCity() {
         offscreenCtx = offscreenCanvas.getContext("2d", { alpha: false });
     }
 
+    const t0 = (DEBUG_CITY && typeof performance !== "undefined" && performance.now) ? performance.now() : 0;
+
     // Bake at map resolution (pixels per vw/vh)
-    const ux = (canvas.width / 100) * BAKE_SCALE;
-    const uy = (canvas.height / MAP_H) * BAKE_SCALE;
+    const bakeScale = computeBakeScale();
+    const ux = (canvas.width / 100) * bakeScale;
+    const uy = (canvas.height / MAP_H) * bakeScale;
 
     offscreenCanvas.width = Math.ceil(MAP_W * ux);
     offscreenCanvas.height = Math.ceil(MAP_H * uy);
+    bakedPixelsPerVw = offscreenCanvas.width / MAP_W;
+    bakedViewportPx = Math.round(VIEWPORT_WORLD_W * bakedPixelsPerVw);
 
     const ctxB = offscreenCtx;
     ctxB.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
+    ctxB.imageSmoothingEnabled = true;
 
     // 1. Draw Streets
     const streetGrad = ctxB.createLinearGradient(0, 0, 0, offscreenCanvas.height);
@@ -396,13 +662,28 @@ function bakeCity() {
     ctxB.fillStyle = streetGrad;
     ctxB.fillRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
 
+    // Street markings (crosswalks)
+    drawCrosswalks(ctxB, ux, uy);
+
     // 2. Draw Block Pads
     const radius = CONFIG.blockRadius * ux;
+    const sidewalkW = Math.max(1, Math.round(((ux + uy) * 0.5) * 0.12));
     blocks.forEach(b => {
+        drawSidewalk(ctxB, b.x, b.y, b.w, b.h, ux, uy, radius, sidewalkW);
+
         ctxB.fillStyle = b.tint || CONFIG.blockColor;
         ctxB.beginPath();
         ctxB.roundRect(b.x * ux, b.y * uy, b.w * ux, b.h * uy, radius);
         ctxB.fill();
+
+        // Block edge for crispness.
+        ctxB.strokeStyle = CONFIG.blockStroke;
+        ctxB.lineWidth = Math.max(1, Math.round(radius * 0.18));
+        ctxB.stroke();
+
+        if (b.kind === "park") {
+            drawParkDetails(ctxB, b, ux, uy, radius);
+        }
     });
 
     // 3. Draw Shadows + Buildings (static bake)
@@ -511,285 +792,283 @@ function bakeCity() {
         }
 
         // Windows
-        if (b.windows && b.windows.length > 0 && bw > 7 * ux) {
-            const winW = (0.8 * ux) | 0;
-            const winH = (1.2 * uy) | 0;
+        if (b.windows && b.windows.length > 0 && b.w > 3.2 && b.h > 3.2) {
+            // NOTE: windows belong on the *walls*, not the roof.
+            // We map precomputed (w.x,w.y) from footprint-space to wall-space.
+            const wallH = roofOffset;
+            if (wallH > 6) {
+                const wallX = bx;
+                const wallY = ry + bh; // top edge of the front wall
+                const wallW = bw;
 
-            b.windows.forEach(w => {
-                const wx = (rx + w.x * ux) | 0;
-                const wy = (ry + w.y * uy) | 0;
+                const winW = Math.max(1, Math.round(wallW * 0.085));
+                const winH = Math.max(1, Math.round(wallH * 0.2));
 
-                if (w.lit) {
-                    ctxB.fillStyle = b.tint.window || "#ffd700";
+                const clamp01 = (n) => Math.max(0, Math.min(1, n));
+
+                // Batch draws to reduce state churn.
+                ctxB.fillStyle = "rgba(0,0,0,0.12)";
+                b.windows.forEach(w => {
+                    if (w.lit) return;
+                    const u = clamp01(w.x / (b.w || 1));
+                    const v = clamp01(w.y / (b.h || 1));
+                    const wx = (wallX + u * (wallW - winW)) | 0;
+                    const wy = (wallY + v * (wallH - winH)) | 0;
                     ctxB.fillRect(wx, wy, winW, winH);
-                } else {
-                    ctxB.fillStyle = "rgba(0,0,0,0.08)";
+                });
+
+                ctxB.fillStyle = b.tint.window || "#ffd700";
+                b.windows.forEach(w => {
+                    if (!w.lit) return;
+                    const u = clamp01(w.x / (b.w || 1));
+                    const v = clamp01(w.y / (b.h || 1));
+                    const wx = (wallX + u * (wallW - winW)) | 0;
+                    const wy = (wallY + v * (wallH - winH)) | 0;
                     ctxB.fillRect(wx, wy, winW, winH);
-                }
-            });
+                });
+            }
         }
     });
 
     if (DEBUG_CITY) {
-        console.log(`[PERF] City Baked: ${offscreenCanvas.width}x${offscreenCanvas.height}`);
+        const dt = t0 ? Math.round(performance.now() - t0) : 0;
+        console.log(`[PERF] City bake: ${offscreenCanvas.width}x${offscreenCanvas.height} in ${dt}ms (scale=${bakeScale.toFixed(2)} dpr=${getDpr()} viewportWorldW=${VIEWPORT_WORLD_W})`);
     }
 }
 
-/* --- SIGNAL PATH --- */
+/* --- HORIZONTAL SCROLL / CAMERA --- */
 
-/**
- * REDESIGN: Winding Lookahead Walker
- * Uses waypoints and vertical bias to create organic, non-linear paths.
- */
-function generateSignalPath() {
-    const intersections = [];
-
-    // 1. Pre-indexing all intersections between H and V streets
-    streetH.forEach(h => {
-        streetV.forEach(v => {
-            if (v.x >= h.xStart - 0.1 && v.x <= h.xEnd + 0.1 &&
-                h.y >= v.yStart - 0.1 && h.y <= v.yEnd + 0.1) {
-                intersections.push({ x: v.x, y: h.y, hStreet: h, vStreet: v });
-            }
-        });
-    });
-
-    // 2. Setup Waypoints (Zone-based Target Y)
-    const zoneCount = 4;
-    const zoneTargets = [];
-    for (let i = 0; i < zoneCount; i++) {
-        // Prefer targets away from the center (20-40 or 60-80 range)
-        const side = Math.random() > 0.5 ? 1 : -1;
-        const targetY = (MAP_H / 2) + side * (15 + Math.random() * 25);
-        zoneTargets.push(targetY);
-    }
-
-    let cx = 0;
-    let cy = MAP_H / 2;
-    let currentH = streetH.find(h => Math.abs(h.y - cy) < 0.1);
-    let hRunDistance = 0; // Track how long we've been on this X-run
-
-    let pathPoints = [{ x: 0, y: cy }];
-    let safety = 0;
-
-    // 3. Walk through intersections with lookahead and bias
-    while (cx < MAP_W && safety++ < 150) {
-        const zoneIdx = Math.min(zoneCount - 1, Math.floor((cx / MAP_W) * zoneCount));
-        const targetY = zoneTargets[zoneIdx];
-
-        // Find intersections ahead on current street
-        const candidates = intersections
-            .filter(idx => idx.hStreet === currentH && idx.x > cx + 3)
-            .sort((a, b) => a.x - b.x);
-
-        if (candidates.length === 0) break;
-
-        let chosenIdx = null;
-        let chosenNextH = null;
-
-        // Pressure to turn after 50vw of straight line
-        const turnWeight = 0.2 + (hRunDistance / 50);
-
-        for (let idx of candidates) {
-            // Find reachable H-streets
-            const reachableH = streetH.filter(h =>
-                h !== currentH &&
-                h.xStart <= idx.x + 0.1 && h.xEnd >= idx.x - 0.1 &&
-                h.y >= idx.vStreet.yStart - 0.1 && h.y <= idx.vStreet.yEnd + 0.1 &&
-                h.xEnd > idx.x + 30 // Still needs significant forward progress
-            );
-
-            if (reachableH.length === 0) continue;
-
-            // Score this turn based on targetY proximity
-            const turnCandidates = reachableH.map(h => ({
-                h,
-                distToTarget: Math.abs(h.y - targetY),
-                isMovingTowards: Math.abs(h.y - targetY) < Math.abs(cy - targetY)
-            }));
-
-            // Pick the best one for this intersection (closest to target)
-            turnCandidates.sort((a, b) => a.distToTarget - b.distToTarget);
-            const bestChoice = turnCandidates[0];
-
-            // Turn probability
-            const randomFactor = Math.random();
-            const turnThreshold = bestChoice.isMovingTowards ? (0.4 - turnWeight) : (0.7 - turnWeight);
-
-            if (randomFactor > Math.max(0.1, turnThreshold)) {
-                chosenIdx = idx;
-                chosenNextH = bestChoice.h;
-                break;
-            }
-        }
-
-        if (chosenIdx) {
-            pathPoints.push({ x: chosenIdx.x, y: cy });
-            pathPoints.push({ x: chosenIdx.x, y: chosenNextH.y });
-            hRunDistance = 0; // Reset run distance
-            cx = chosenIdx.x;
-            cy = chosenNextH.y;
-            currentH = chosenNextH;
-        } else {
-            // Keep going on this street
-            const moveAmt = Math.min(20, currentH.xEnd - cx);
-            if (moveAmt <= 2 && candidates.length > 0) {
-                // Force a turn if we are at the edge of this street segment
-                const fallback = candidates[0];
-                const anyH = streetH.filter(h =>
-                    h !== currentH &&
-                    h.xStart <= fallback.x + 0.1 && h.xEnd >= fallback.x - 0.1 &&
-                    h.y >= fallback.vStreet.yStart - 0.1 && h.y <= fallback.vStreet.yEnd + 0.1
-                );
-                if (anyH.length > 0) {
-                    const nextH = anyH[Math.floor(Math.random() * anyH.length)];
-                    pathPoints.push({ x: fallback.x, y: cy });
-                    pathPoints.push({ x: fallback.x, y: nextH.y });
-                    cx = fallback.x;
-                    cy = nextH.y;
-                    currentH = nextH;
-                    hRunDistance = 0;
-                } else {
-                    cx = currentH.xEnd;
-                    pathPoints.push({ x: cx, y: cy });
-                    break;
-                }
-            } else {
-                cx += Math.max(1, moveAmt);
-                hRunDistance += Math.max(1, moveAmt);
-                pathPoints.push({ x: cx, y: cy });
-            }
-        }
-    }
-
-    // 4. Final cleanup: Ensure path reaches MAP_W
-    if (pathPoints[pathPoints.length - 1].x < MAP_W) {
-        pathPoints.push({ x: MAP_W, y: pathPoints[pathPoints.length - 1].y });
-    }
-
-    // Build SVG path
-    if (pathPoints.length < 2) return;
-    signalPathData = pathPoints; // [DEBUG] Store for external access <!-- id: debug_store -->
-
-    let d = `M ${pathPoints[0].x},${pathPoints[0].y}`;
-    for (let i = 1; i < pathPoints.length; i++) {
-        d += ` L ${pathPoints[i].x},${pathPoints[i].y}`;
-    }
-
-
-
-    const path = pathEl || document.getElementById("signalLine");
-    if (path) {
-        path.setAttribute("d", d);
-
-        // Set initial state: fully hidden using a massive dash array to prevent repetition
-        const safeLength = 100000;
-        path.style.strokeDasharray = safeLength;
-        path.style.strokeDashoffset = safeLength;
-    }
-}
-
-// Exposed function to be called by app.js after horizontalTimeline is ready
-// [DEBUG] Update Signal Tracker and Checkpoints <!-- id: debug_animation_logic -->
-/**
- * REFACTORED: Fixed-Distance Scroll Controller
- * Decouples signal speed from geometry. The journey is exactly (MAP_W * 15)px long.
- */
+// Kept as `animateSignalPath` for compatibility with `js/app.js`.
 function animateSignalPath() {
-    const path = pathEl || document.getElementById("signalLine");
-    const head = headEl || document.getElementById("signalHead");
     const wrapper = wrapperEl || document.querySelector(".horizontal-wrapper");
     const container = scrollContainerEl || document.querySelector(".scroll-container");
     const mapEl = cityMapEl || document.getElementById("cityMap");
 
-    if (!path || !wrapper || !container) return;
+    if (!wrapper || !container) return;
 
-    const pathTotalLength = path.getTotalLength();
-    const viewportWidthVW = 100;
-    const scrollDistance = MAP_W * 10;
-    const maxWrapperShift = () => -(wrapper.scrollWidth - container.clientWidth);
+    const panels = Array.from(wrapper.querySelectorAll(".panel"));
+    const slideCount = Math.max(1, panels.length);
+
+    const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const viewportWidthVW = VIEWPORT_WORLD_W;
+
+    const navRoot = container.querySelector(".hscroll-ui");
+    const navProgress = navRoot ? navRoot.querySelector(".hscroll-progress") : null;
+    const prevBtn = navRoot ? navRoot.querySelector(".hscroll-prev") : null;
+    const nextBtn = navRoot ? navRoot.querySelector(".hscroll-next") : null;
+
+    const ST_ID = "city-horizontal-sections";
+    const existing = ScrollTrigger.getById(ST_ID);
+    if (existing) existing.kill(true);
 
     wrapper.style.transformOrigin = "center center";
-    if (head) {
-        head.setAttribute("fill", "#deff4f");
-        head.style.filter = "drop-shadow(0 0 5px #deff4f)";
+
+    let activeIndex = 0;
+    let isAnimatingSlide = false;
+    let sectionScrollPx = 0;
+    let st;
+
+    const computeSectionScroll = () => {
+        const vh = window.innerHeight || 800;
+        return Math.max(560, Math.min(1200, Math.round(vh * 0.9)));
+    };
+
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+    const wrapperXForIndex = (index) => -(container.clientWidth * index);
+
+    const setWrapperIndex = (index) => {
+        gsap.set(wrapper, {
+            x: wrapperXForIndex(index),
+            force3D: true
+        });
+    };
+
+    const tweenWrapperIndex = (index) => {
+        return gsap.to(wrapper, {
+            x: wrapperXForIndex(index),
+            duration: prefersReducedMotion ? 0 : 1.3,
+            ease: prefersReducedMotion ? "none" : "power3.inOut",
+            force3D: true,
+            overwrite: true
+        });
+    };
+
+    const buildNav = () => {
+        if (!navProgress) return;
+        navProgress.textContent = "";
+
+        panels.forEach((panel, i) => {
+            const label =
+                (panel && panel.getAttribute("data-nav")) ||
+                (panel && panel.querySelector("h1,h2") && panel.querySelector("h1,h2").textContent.trim()) ||
+                `Section ${i + 1}`;
+
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "hscroll-segment";
+            btn.dataset.index = String(i);
+            btn.dataset.label = label;
+            btn.setAttribute("role", "tab");
+            btn.setAttribute("aria-label", label);
+            btn.setAttribute("aria-selected", i === 0 ? "true" : "false");
+            btn.setAttribute("title", label);
+            btn.style.setProperty("--fill", i === 0 ? "0" : "0");
+
+            const fill = document.createElement("span");
+            fill.className = "hscroll-fill";
+            fill.setAttribute("aria-hidden", "true");
+            btn.appendChild(fill);
+
+            navProgress.appendChild(btn);
+        });
+    };
+
+    const updateNav = (localProgress) => {
+        if (!navRoot) return;
+
+        const segs = navProgress ? Array.from(navProgress.querySelectorAll(".hscroll-segment")) : [];
+        segs.forEach((seg) => {
+            const idx = Number(seg.dataset.index);
+            const fill = idx < activeIndex ? 1 : idx === activeIndex ? localProgress : 0;
+            seg.style.setProperty("--fill", String(fill));
+            seg.classList.toggle("is-active", idx === activeIndex);
+            seg.setAttribute("aria-selected", idx === activeIndex ? "true" : "false");
+        });
+
+        if (prevBtn) prevBtn.disabled = activeIndex === 0;
+        if (nextBtn) nextBtn.disabled = activeIndex === slideCount - 1;
+    };
+
+    const scrollToIndexStart = (index, { immediate = true } = {}) => {
+        if (!st) return;
+        const targetY = st.start + index * sectionScrollPx;
+
+        if (window.lenis && typeof window.lenis.scrollTo === "function") {
+            window.lenis.scrollTo(targetY, { immediate });
+            return;
+        }
+        window.scrollTo(0, targetY);
+    };
+
+    const goToIndex = (index, { reason = "nav" } = {}) => {
+        const nextIndex = clamp(index, 0, slideCount - 1);
+        if (nextIndex === activeIndex) return;
+        if (!st) return;
+
+        isAnimatingSlide = true;
+
+        activeIndex = nextIndex;
+        updateNav(0);
+
+        // Hard align the scroll position to the section start so wheel/trackpad over-scroll
+        // doesn't carry over into the next section (matches arrow behavior).
+        scrollToIndexStart(activeIndex, { immediate: true });
+
+        // Freeze Lenis momentum during the transition if available.
+        if (window.lenis && typeof window.lenis.stop === "function") {
+            window.lenis.stop();
+        }
+
+        tweenWrapperIndex(activeIndex).eventCallback("onComplete", () => {
+            isAnimatingSlide = false;
+            if (window.lenis && typeof window.lenis.start === "function") {
+                window.lenis.start();
+            }
+        });
+    };
+
+    // Build / wire navigation UI (no-op if markup isn't present)
+    buildNav();
+    updateNav(0);
+
+    if (prevBtn) prevBtn.onclick = () => goToIndex(activeIndex - 1, { reason: "nav" });
+    if (nextBtn) nextBtn.onclick = () => goToIndex(activeIndex + 1, { reason: "nav" });
+    if (navProgress) {
+        navProgress.onclick = (e) => {
+            const btn = e.target && e.target.closest ? e.target.closest(".hscroll-segment") : null;
+            if (!btn) return;
+            const idx = Number(btn.dataset.index);
+            if (Number.isFinite(idx)) goToIndex(idx, { reason: "nav" });
+        };
     }
 
-    // 1. Setup the master timeline with ScrollTrigger
-    const tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: container,
-            pin: true,
-            scrub: 0.6, // smoother scrub to reduce jank
-            start: "top top",
-            end: () => "+=" + scrollDistance, // Slower horizontal travel
-            invalidateOnRefresh: true,
-            onEnter: startRendering,
-            onEnterBack: startRendering,
-            onLeave: stopRendering,
-            onLeaveBack: stopRendering,
-            onToggle: (self) => {
-                if (!window.lenis || !window.lenis.options) return;
-                if (!window.lenisDefaults) return;
-                if (self.isActive) {
-                    window.lenis.options.duration = 0;
-                    window.lenis.options.easing = (t) => t;
-                } else {
-                    window.lenis.options.duration = window.lenisDefaults.duration;
-                    window.lenis.options.easing = window.lenisDefaults.easing;
-                }
-            },
-            // Removed snap property to disable "snapping into frame"
-            onUpdate: (self) => {
-                const scrollProgress = self.progress; // 0 to 1 based on FIXED scroll distance
+    sectionScrollPx = computeSectionScroll();
+    setWrapperIndex(activeIndex);
 
-                // --- REVERTED TO LINEAR SCROLL ---
-                // Removed "Dwell & Rush" mapping (getCarouselProgress)
-                // Removed Dynamic Zoom (targetMapScale)
+    // 1) Pin the container for N "sections" of scroll, 2) Use the scroll only to fill
+    // the progress segment, 3) Snap sections via our own smooth wrapper tween.
+    st = ScrollTrigger.create({
+        id: ST_ID,
+        trigger: container,
+        pin: true,
+        anticipatePin: 1,
+        start: "top top",
+        end: () => "+=" + (computeSectionScroll() * slideCount),
+        invalidateOnRefresh: true,
+        onEnter: startRendering,
+        onEnterBack: startRendering,
+        onLeave: stopRendering,
+        onLeaveBack: stopRendering,
+        onToggle: (self) => {
+            if (!window.lenis || !window.lenis.options) return;
+            if (!window.lenisDefaults) return;
+            if (self.isActive) {
+                window.lenis.options.duration = 0;
+                window.lenis.options.easing = (t) => t;
+            } else {
+                window.lenis.options.duration = window.lenisDefaults.duration;
+                window.lenis.options.easing = window.lenisDefaults.easing;
+            }
+        },
+        onRefresh: (self) => {
+            sectionScrollPx = computeSectionScroll();
 
-                // Constant scale
-                targetMapScale = 1.0;
+            const rel = self.scroll() - self.start;
+            const idx = clamp(Math.floor(rel / sectionScrollPx), 0, slideCount - 1);
+            activeIndex = idx;
+            setWrapperIndex(activeIndex);
 
-                // Update path position based on LINEAR progress
-                const currentLen = scrollProgress * pathTotalLength;
-                const point = path.getPointAtLength(currentLen);
+            const localProgress = clamp((rel - activeIndex * sectionScrollPx) / sectionScrollPx, 0, 1);
+            updateNav(localProgress);
+        },
+        onUpdate: (self) => {
+            const rel = self.scroll() - self.start;
+            const startForActive = activeIndex * sectionScrollPx;
+            const localProgress = clamp((rel - startForActive) / sectionScrollPx, 0, 1);
 
-                if (head) {
-                    head.setAttribute("cx", point.x);
-                    head.setAttribute("cy", point.y);
-                    head.style.opacity = scrollProgress > 0.001 ? "1" : "0";
-                }
+            updateNav(localProgress);
 
-                // 3. CAMERA MAPPING - PURE LINEAR based on scroll progress
-                const cameraX = scrollProgress * (MAP_W - viewportWidthVW);
+            // Camera mapping: smooth continuous travel across the city while sections fill.
+            const overallProgress = clamp((activeIndex + localProgress) / slideCount, 0, 1);
+            const cameraX = overallProgress * (MAP_W - viewportWidthVW);
+            targetCameraX = clamp(cameraX, 0, MAP_W - viewportWidthVW);
 
-                // Clamp camera bounds
-                targetCameraX = Math.max(0, Math.min(MAP_W - viewportWidthVW, cameraX));
+            // Map fade-out approaching the vertical hub.
+            if (overallProgress > 0.95) {
+                const fade = 1 - (overallProgress - 0.95) * 20; // 1 -> 0
+                if (mapEl) mapEl.style.opacity = Math.max(0, fade);
+            } else {
+                if (mapEl) mapEl.style.opacity = "1";
+            }
 
-                // 4. MAP FADE-OUT (Entrance to Hub)
-                if (scrollProgress > 0.95) {
-                    const fade = 1 - (scrollProgress - 0.95) * 20; // 1 to 0
-                    if (mapEl) mapEl.style.opacity = Math.max(0, fade);
-                } else {
-                    if (mapEl) mapEl.style.opacity = "1";
-                }
+            if (isMapInView) requestRender();
 
-                if (isMapInView) render();
+            if (isAnimatingSlide) return;
+
+            // Section boundaries: when a segment fills/empties, run the same slide tween
+            // you'd get from clicking the arrow buttons.
+            if (rel >= (activeIndex + 1) * sectionScrollPx && activeIndex < slideCount - 1) {
+                goToIndex(activeIndex + 1, { reason: "scroll" });
+                return;
+            }
+            if (rel < activeIndex * sectionScrollPx && activeIndex > 0) {
+                goToIndex(activeIndex - 1, { reason: "scroll" });
             }
         }
     });
 
-    // 2. Animate the path and wrapper with GSAP (avoid manual DOM transforms)
-    tl.to(path, {
-        strokeDashoffset: 0,
-        ease: "none"
-    }, 0);
-    tl.to(wrapper, {
-        x: maxWrapperShift,
-        ease: "none",
-        force3D: true
-    }, 0);
-    console.log("Linear Camera + Path-Following Signal initialized");
+    console.log("Sectioned horizontal scroll initialized");
 }
 
 
@@ -798,6 +1077,16 @@ window.animateSignalPath = animateSignalPath;
 
 /* --- RENDERING --- */
 
+function requestRender() {
+    if (!ctx || !canvas) return;
+    if (!isMapInView) return;
+    if (renderRafId) return;
+    renderRafId = requestAnimationFrame(() => {
+        renderRafId = 0;
+        render();
+    });
+}
+
 function render() {
     if (!ctx || !canvas) return;
     if (!isMapInView) {
@@ -805,35 +1094,16 @@ function render() {
         return;
     }
 
-    // 0. Update Camera & Scale (locked to scroll progress)
     currentCameraX = targetCameraX;
-    currentMapScale = targetMapScale;
-
-    // Sync SVG viewBox with Camera & Scale
-    const svg = svgEl || document.getElementById("signalSVG");
-    if (svg) {
-        const vw = 100 / currentMapScale;
-        const vh = MAP_H / currentMapScale;
-        const ox = currentCameraX - (vw - 100) / 2;
-        const oy = -(vh - MAP_H) / 2;
-        svg.setAttribute("viewBox", `${ox} ${oy} ${vw} ${vh}`);
-    }
 
     const W = canvas.width;
     const H = canvas.height;
-    ctx.clearRect(0, 0, W, H);
-
-    ctx.save();
-    // Center and Scale the context
-    ctx.translate(W / 2, H / 2);
-    ctx.scale(currentMapScale, currentMapScale);
-    ctx.translate(-W / 2, -H / 2);
 
     // 1. Draw Baked City (single call)
     if (offscreenCanvas) {
-        const bakedUx = offscreenCanvas.width / MAP_W;
-        const sx = currentCameraX * bakedUx;
-        const sw = 100 * bakedUx;
+        const sw = bakedViewportPx;
+        const maxSx = Math.max(0, offscreenCanvas.width - sw);
+        const sx = clampNum(Math.round(currentCameraX * bakedPixelsPerVw), 0, maxSx);
         ctx.drawImage(offscreenCanvas, sx, 0, sw, offscreenCanvas.height, 0, 0, W, H);
     } else {
         // Fallback if not baked
@@ -843,8 +1113,6 @@ function render() {
         ctx.fillStyle = streetGrad;
         ctx.fillRect(0, 0, W, H);
     }
-
-    ctx.restore();
 }
 
 window.initCityCanvas = initCityCanvas;

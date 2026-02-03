@@ -11,34 +11,6 @@
     background-color: #8c768f;
 }
 
-/* THE SIGNAL LINE (SVG) - Overlaid on Canvas */
-.signal-path-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    /* Above buildings */
-    pointer-events: none;
-    overflow: visible;
-}
-
-#signalLine {
-    fill: none;
-    stroke: #deff4f;
-    /* Civic Neon Lime */
-    stroke-width: 4px;
-    /* Slightly thicker */
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-    /* Multilayer neon glow */
-    filter:
-        drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px #deff4f) drop-shadow(0 0 15px #deff4f);
-    opacity: 1;
-}
-
 /* Label styles if we draw them in DOM, otherwise unused */
 .map-label {
     position: absolute;

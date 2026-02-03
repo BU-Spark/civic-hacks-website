@@ -51,18 +51,13 @@
   <div class="scroll-container">
     <!-- LAYER 1: The Blueprint City Map (Fixed/Absolute Background) -->
     <div class="city-map-layer" id="cityMap">
-      <!-- SVG for the Signal Line -->
-      <svg class="signal-path-svg" id="signalSVG" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <!-- Path will be generated/injected via JS -->
-        <path id="signalLine" d="M0,500 L100,500" />
-      </svg>
     </div>
 
     <div class="horizontal-wrapper">
       <!-- Panel 1: The Hook (Hero) -->
 
       <!-- Panel 1: The Hook (Hero) -->
-      <section class="panel panel-hero">
+      <section class="panel panel-hero" data-nav="Hook">
         <div class="panel-content">
           <h1 class="mega-headline">CIVIC<br>HACKS<br><span class="year-accent">2026</span></h1>
           <div class="hero-info-snippet">
@@ -73,7 +68,7 @@
       </section>
 
       <!-- Panel 2: The Vision (Why) -->
-      <section class="panel panel-vision">
+      <section class="panel panel-vision" data-nav="Mission">
         <div class="panel-content">
           <div class="glass-card">
             <h2 class="section-title">The Mission</h2>
@@ -86,7 +81,7 @@
       </section>
 
       <!-- Panel 3: The Tracks (What) -->
-      <section class="panel panel-tracks">
+      <section class="panel panel-tracks" data-nav="Tracks">
         <div class="panel-content">
           <h2 class="section-title">The Tracks</h2>
           <div class="tracks-grid">
@@ -113,7 +108,7 @@
       </section>
 
       <!-- Panel 4: The Transition (Arrival) -->
-      <section class="panel panel-transition">
+      <section class="panel panel-transition" data-nav="Arrival">
         <div class="panel-content">
 
           <h2 class="section-title" style="text-align: right; width: 100%;">Arrival:<br>665 Comm Ave</h2>
@@ -121,6 +116,23 @@
         </div>
       </section>
 
+    </div>
+
+    <!-- Section Progress + Arrows (Horizontal Navigation) -->
+    <div class="hscroll-ui" aria-label="Horizontal sections navigation">
+      <button class="hscroll-arrow hscroll-prev" type="button" aria-label="Previous section">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M12.75 3.75L6.5 10l6.25 6.25" stroke="currentColor" stroke-width="2.25"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <div class="hscroll-progress" role="tablist" aria-label="Sections"></div>
+      <button class="hscroll-arrow hscroll-next" type="button" aria-label="Next section">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.25 3.75L13.5 10l-6.25 6.25" stroke="currentColor" stroke-width="2.25"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
     </div>
   </div>
 
