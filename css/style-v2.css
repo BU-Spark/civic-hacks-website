@@ -406,6 +406,7 @@ body {
   text-transform: uppercase;
   clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
   transition: all 0.3s ease;
+  margin-bottom: 3rem;
 }
 
 .hud-nav:hover .hud-cta .neon-btn {
@@ -599,7 +600,7 @@ body {
 
 .meta-val {
   font-family: var(--font-head);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   background: var(--civic-purple);
   color: var(--civic-white);
@@ -2909,7 +2910,7 @@ summary::-webkit-details-marker {
   font-size: 0.8rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--civic-neon);
+  color: var(--civic-white);
   background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -3084,4 +3085,18 @@ summary::-webkit-details-marker {
     line-height: 1.6 !important;
     white-space: normal !important;
   }
+}
+
+/* Console Links */
+.console-response a {
+  color: var(--civic-neon);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--civic-neon);
+  transition: all 0.3s ease;
+}
+
+.console-response a:hover {
+  background: var(--civic-neon);
+  color: var(--civic-black);
+  text-decoration: none;
 }

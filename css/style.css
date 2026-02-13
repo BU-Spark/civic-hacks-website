@@ -1733,3 +1733,15 @@ body {
     gap: 1rem;
   }
 }
+
+/* FAQ Links */
+.faq-answer a {
+  color: var(--civic-purple);
+  font-weight: 700;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.faq-answer a:hover {
+  color: var(--civic-neon);
+}
