@@ -846,6 +846,49 @@ body {
   padding-bottom: 2px;
 }
 
+/* Track Focus Area Tags */
+.track-tags {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.track-tag-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--civic-silver);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.track-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.track-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--civic-white);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--civic-steel);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.track-tag:hover {
+  border-color: var(--civic-purple);
+  background: rgba(146, 39, 142, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-width: 900px) {
   .tracks-grid {
     grid-template-columns: 1fr;
