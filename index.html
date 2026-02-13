@@ -10,10 +10,12 @@
   <link rel="shortcut icon" type="image/x-icon" href="img/CHLogo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 </head>
 <a id="mlh-trust-badge"
   style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
@@ -23,49 +25,623 @@
 
 <body>
   <div class="circuit-motif-layer">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+    <img src="img/svg/circuit-element-1.svg" class="circuit-svg cs-1" alt="">
+    <img src="img/svg/circuit-element-2.svg" class="circuit-svg cs-2" alt="">
+    <!-- <img src="img/svg/circuit-element-3.svg" class="circuit-svg cs-3" alt=""> -->
+    <img src="img/svg/circuit-element-4.svg" class="circuit-svg cs-4" alt="">
+    <img src="img/svg/circuit-element-5.svg" class="circuit-svg cs-5" alt="">
+    <img src="img/svg/circuit-element-6.svg" class="circuit-svg cs-6" alt="">
+    <!-- <img src="img/svg/circuit-logo.svg" class="circuit-svg cs-logo" alt=""> -->
   </div>
 
-  <header class="site-header">
-    <div class="logo-lockup">
-      <img src="img/CHLogo.png" alt="Civic Hacks Logo" class="main-logo">
+  <!-- VERTICAL HUD NAVIGATION -->
+  <nav class="hud-nav">
+    <div class="hud-logo">
+      <img src="img/CHLogo.png" alt="Civic Hacks">
     </div>
-    <a class="minimal-link" href="https://airtable.com/appmORmY9unGbIHj2/shrdXMFlPtuSgR7jS" target="_blank"
-      rel="noopener noreferrer">Apply</a>
-  </header>
-
-  <main class="hero-flat">
-    <div class="hero-grid">
-      <div class="hero-main">
-        <h1 class="mega-headline">CIVIC<br>HACKS<br><span class="year-accent">2026</span></h1>
+    <div class="hud-links-wrapper">
+      <div class="hud-links">
+        <a href="#mission" class="hud-link" data-text="MISSION">MISSION</a>
+        <a href="#tracks" class="hud-link" data-text="TRACKS">TRACKS</a>
+        <a href="#prizes" class="hud-link" data-text="PRIZES">PRIZES</a>
+        <a href="#schedule" class="hud-link" data-text="SCHEDULE">SCHEDULE</a>
+        <a href="#sponsors" class="hud-link" data-text="SPONSORS">SPONSORS</a>
+        <a href="#faq" class="hud-link" data-text="FAQ">FAQ</a>
       </div>
+      <div class="hud-scroll-indicator">MORE <span class="indicator-arrow">▼</span></div>
+    </div>
+    <div class="hud-cta">
+      <a href="https://airtable.com/appmORmY9unGbIHj2/shrdXMFlPtuSgR7jS" target="_blank" rel="noopener noreferrer"
+        class="neon-btn">
+        APPLY_NOW <span class="btn-glitch"></span>
+      </a>
+    </div>
+    <div class="hud-status">
+      <span class="status-dot"></span> SYSTEM_ONLINE
+    </div>
+  </nav>
 
-      <div class="hero-info">
-        <div class="info-block">
-          <span class="label">Where</span>
-          <p class="info-text">Boston University<br>CCDS Building,<br /> 665 Commonwealth Ave.</p>
+  <!-- HERO SECTION -->
+  <main class="hero-massive">
+    <div class="hero-container">
+      <div class="hero-glitch-layer" aria-hidden="true">BOSTON UNIVERSITY</div>
+      <h1 class="hero-title">
+        <span class="hero-year">2026</span>
+        <img src="img/svg/civic-hacks-text-logo.svg" alt="Civic Hacks 2026" class="hero-logo">
+      </h1>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">LOCATION_</span>
+          <span class="meta-val">BOSTON_U / CCDS</span>
         </div>
-
-        <div class="info-block">
-          <span class="label">When</span>
-          <p class="info-text">Feb 21–22, 2026</p>
-        </div>
-
-        <div class="info-block cta-block">
-          <a class="flat-cta" href="https://airtable.com/appmORmY9unGbIHj2/shrdXMFlPtuSgR7jS" target="_blank"
-            rel="noopener noreferrer">Apply Now</a>
-          <p class="micro-copy">Free admission · Food provided</p>
+        <div class="meta-item">
+          <span class="meta-label">DATE_</span>
+          <span class="meta-val">FEB 21-22</span>
         </div>
       </div>
     </div>
   </main>
 
+  <!-- MISSION SECTION -->
+  <section id="mission" class="sc-section mission-section">
+    <div class="container">
+      <div class="mission-grid">
+        <div class="mission-text reveal-text">
+          <h2 class="section-title">Our Mission</h2>
+          <p class="mission-body">
+            Civic Hacks 2026 brings together the brightest minds to solve real-world problems.
+            We believe in the power of code to create meaningful change in our communities.
+            Join us for 24 hours of innovation, collaboration, and impact.
+          </p>
+        </div>
+        <div class="mission-visual">
+          <div class="photo-stack">
+            <!-- Placeholder for photos, user can replace src -->
+            <div class="stack-card card-1"></div>
+            <div class="stack-card card-2"></div>
+            <div class="stack-card card-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACKS SECTION -->
+  <section id="tracks" class="sc-section tracks-section">
+    <div class="container">
+      <h2 class="section-title reveal-text">Tracks</h2>
+      <div class="tracks-grid">
+        <div class="track-card">
+          <div class="track-content">
+            <h3 class="track-name">Sustainability</h3>
+            <p class="track-desc">Solutions for a greener future.</p>
+            <div class="track-details">
+              <p>Build projects that address climate change, renewable energy, and sustainable living. From smart
+                recycling to energy monitoring, help save our planet.</p>
+            </div>
+            <span class="track-expand-btn">LEARN_MORE +</span>
+          </div>
+        </div>
+        <div class="track-card">
+          <div class="track-content">
+            <h3 class="track-name">Education</h3>
+            <p class="track-desc">Empowering the next generation.</p>
+            <div class="track-details">
+              <p>Create tools that improve learning experiences, accessibility, and educational equity. Reimagine the
+                classroom with AI, VR, or interactive platforms.</p>
+            </div>
+            <span class="track-expand-btn">LEARN_MORE +</span>
+          </div>
+        </div>
+        <div class="track-card">
+          <div class="track-content">
+            <h3 class="track-name">Healthcare</h3>
+            <p class="track-desc">Innovating for better well-being.</p>
+            <div class="track-details">
+              <p>Develop solutions for patient care, mental health, and medical accessibility. Use technology to make
+                healthcare more efficient and personal.</p>
+            </div>
+            <span class="track-expand-btn">LEARN_MORE +</span>
+          </div>
+        </div>
+        <div class="track-card">
+          <div class="track-content">
+            <h3 class="track-name">Civic Tech</h3>
+            <p class="track-desc">Improving public services & infra.</p>
+            <div class="track-details">
+              <p>Hack for the public good. Improve transportation, government services, and aesthetic infrastructure to
+                make our cities smarter and more livable.</p>
+            </div>
+            <span class="track-expand-btn">LEARN_MORE +</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO GALLERY / HIGHLIGHTS -->
+  <section id="gallery" class="sc-section gallery-section">
+    <div class="marquee-wrapper">
+      <div class="marquee-content">
+        <!-- Duplicate images for seamless scroll -->
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+      </div>
+      <div class="marquee-content" aria-hidden="true">
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIZES SECTION -->
+  <section id="prizes" class="sc-section prizes-section" style="display:none">
+    <div class="container">
+      <h2 class="section-title reveal-text">Prizes</h2>
+      <div class="prizes-podium">
+        <!-- 2nd Place -->
+        <div class="prize-plate tier-2">
+          <div class="plate-content">
+            <div class="plate-rank">02</div>
+            <h3 class="prize-tier">Second Place</h3>
+            <p class="prize-amount">$500</p>
+            <p class="prize-desc">Cash prize + Swag Kit</p>
+          </div>
+          <div class="plate-corner-tl"></div>
+          <div class="plate-corner-br"></div>
+        </div>
+
+        <!-- 1st Place -->
+        <div class="prize-plate tier-1">
+          <div class="plate-glow-layer"></div>
+          <div class="plate-content">
+            <div class="plate-rank">01</div>
+            <h3 class="prize-tier">First Place</h3>
+            <p class="prize-amount">$1,000</p>
+            <p class="prize-desc">Cash prize + Swag Kit</p>
+          </div>
+          <div class="plate-corner-tl"></div>
+          <div class="plate-corner-br"></div>
+        </div>
+
+        <!-- 3rd Place -->
+        <div class="prize-plate tier-3">
+          <div class="plate-content">
+            <div class="plate-rank">03</div>
+            <h3 class="prize-tier">Third Place</h3>
+            <p class="prize-amount">$250</p>
+            <p class="prize-desc">Cash prize + Swag Kit</p>
+          </div>
+          <div class="plate-corner-tl"></div>
+          <div class="plate-corner-br"></div>
+        </div>
+      </div>
+
+      <!-- Prize Filters -->
+      <div class="prize-filters">
+        <button class="filter-btn active" data-filter="all">ALL_PRIZES</button>
+        <button class="filter-btn" data-filter="track">TRACK_CHALLENGES</button>
+        <button class="filter-btn" data-filter="sponsor">SPONSOR_BOUNTIES</button>
+        <button class="filter-btn" data-filter="beginner">BEGINNER_QUESTS</button>
+      </div>
+
+      <!-- Detail Prizes Grid (Bounty Board) -->
+      <div class="bounty-grid">
+        <!-- Track Prizes -->
+        <div class="bounty-card" data-category="track">
+          <div class="bounty-icon">🕶️</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Vision Pro</h4>
+            <span class="bounty-tag">AR/VR_TRACK</span>
+          </div>
+        </div>
+        <div class="bounty-card" data-category="track">
+          <div class="bounty-icon">🎮</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">PS5 Pro</h4>
+            <span class="bounty-tag">GAMING_TRACK</span>
+          </div>
+        </div>
+        <div class="bounty-card" data-category="track">
+          <div class="bounty-icon">🚁</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">DJI Mini 4</h4>
+            <span class="bounty-tag">SUSTAINABILITY</span>
+          </div>
+        </div>
+
+        <!-- Sponsor Prizes -->
+        <div class="bounty-card" data-category="sponsor">
+          <div class="bounty-icon">👾</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Flipper Zero</h4>
+            <span class="bounty-tag">CYBERSEC_BOUNTY</span>
+          </div>
+        </div>
+        <div class="bounty-card" data-category="sponsor">
+          <div class="bounty-icon">⌨️</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Keychron Q1</h4>
+            <span class="bounty-tag">BEST_TYPING_APP</span>
+          </div>
+        </div>
+
+        <!-- Beginner Prizes -->
+        <div class="bounty-card" data-category="beginner">
+          <div class="bounty-icon">🔌</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Anker Prime</h4>
+            <span class="bounty-tag">BATTERY_SAVER</span>
+          </div>
+        </div>
+        <div class="bounty-card" data-category="beginner">
+          <div class="bounty-icon">🧱</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Lego Set</h4>
+            <span class="bounty-tag">HARDWARE_HACK</span>
+          </div>
+        </div>
+
+        <!-- More Filler for Density -->
+        <div class="bounty-card" data-category="sponsor">
+          <div class="bounty-icon">🎧</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Sony XM5</h4>
+            <span class="bounty-tag">AUDIO_CHALLENGE</span>
+          </div>
+        </div>
+        <div class="bounty-card" data-category="beginner">
+          <div class="bounty-icon">📟</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Rabbit R1</h4>
+            <span class="bounty-tag">AI_UTILITY</span>
+          </div>
+        </div>
+        <div class="bounty-card" data-category="all">
+          <div class="bounty-icon">👕</div>
+          <div class="bounty-info">
+            <h4 class="bounty-title">Swag Pack</h4>
+            <span class="bounty-tag">RAFFLE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPONSORS SECTION: CIVIC BRUTALIST -->
+  <section id="sponsors" class="sc-section sponsors-section">
+    <div class="container">
+      <h2 class="section-title reveal-text">Sponsors</h2>
+
+      <div class="sponsors-wrapper">
+        <!-- TIER 1: THE MONOLITH ($40k) -->
+        <div class="sponsor-card tier-1 reveal-card">
+          <div class="card-header">
+            <span class="tier-badge">SYSTEM_CORE // 40KW</span>
+            <span class="tier-id">ID_01</span>
+          </div>
+          <div class="card-body">
+            <img src="img/sponsors/MullenFamily-Logo.png" alt="Mullen Family" class="sponsor-logo-large">
+          </div>
+        </div>
+
+        <!-- TIER 2: POWER BLOCKS ($10k - $5k) -->
+        <div class="tier-grid-2">
+          <!-- Avanade -->
+          <div class="sponsor-card tier-2 reveal-card">
+            <div class="card-header">
+              <span class="tier-badge">NODE_A</span>
+            </div>
+            <div class="card-body">
+              <img src="img/sponsors/Avanade-Logo.png" alt="Avanade" class="sponsor-logo-med">
+            </div>
+          </div>
+
+          <!-- Red Hat -->
+          <div class="sponsor-card tier-2 reveal-card">
+            <div class="card-header">
+              <span class="tier-badge">NODE_B</span>
+            </div>
+            <div class="card-body">
+              <img src="img/sponsors/Red_Hat-Logo.wine.svg" alt="Red Hat" class="sponsor-logo-med">
+            </div>
+          </div>
+        </div>
+
+        <!-- TIER 3: ENERGY GRID ($500) -->
+        <div class="tier-grid-3">
+          <div class="sponsor-card tier-3 reveal-card">
+            <img src="img/sponsors/ALLIUM LABS.avif" alt="Allium" class="sponsor-logo-small">
+          </div>
+          <div class="sponsor-card tier-3 reveal-card">
+            <img src="img/sponsors/CYVLAI.png" alt="Cyvl.ai" class="sponsor-logo-small">
+          </div>
+          <div class="sponsor-card tier-3 reveal-card">
+            <img src="img/sponsors/GBH NEWS.ico" alt="GBH News" class="sponsor-logo-small">
+          </div>
+          <!-- Filler for grid density -->
+          <div class="sponsor-card tier-3 empty-slot reveal-card">
+            <span>AVAILABLE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE / WORKSHOPS -->
+  <section id="schedule" class="sc-section schedule-section">
+    <div class="container">
+      <h2 class="section-title reveal-text">Schedule & Workshops</h2>
+      <div class="schedule-timeline">
+        <div class="timeline-item">
+          <span class="time">10:00 AM</span>
+          <div class="event-details">
+            <h3>Opening Ceremony</h3>
+            <p>Kick off the hackathon!</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="time">12:00 PM</span>
+          <div class="event-details">
+            <h3>Team Formation</h3>
+            <p>Find your dream team.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="time">2:00 PM</span>
+          <div class="event-details">
+            <h3>Intro to Web Dev Workshop</h3>
+            <p>Learn the basics of HTML/CSS/JS.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="time">6:00 PM</span>
+          <div class="event-details">
+            <h3>Dinner & Networking</h3>
+            <p>Fuel up and meet mentors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section id="faq" class="sc-section faq-section">
+    <div class="container">
+      <div class="faq-layout">
+        <div class="faq-sidebar">
+          <h2 class="section-title reveal-text">FAQs</h2>
+          <p class="faq-intro reveal-text">Everything you need to know about joining our hackathon.</p>
+          <div class="faq-filters reveal-text">
+            <button class="faq-filter-btn" data-category="all">All</button>
+            <button class="faq-filter-btn active" data-category="getting-started">Getting Started</button>
+            <button class="faq-filter-btn" data-category="basics">Event Basics</button>
+            <button class="faq-filter-btn" data-category="logistics">Logistics & Schedule</button>
+            <button class="faq-filter-btn" data-category="support">Support & Community</button>
+          </div>
+        </div>
+
+        <div class="faq-content reveal-text">
+          <!-- Getting Started -->
+          <div class="faq-item" data-category="getting-started">
+            <details>
+              <summary>Do I need experience? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>No! This hackathon is open to all experience levels. Mentors and workshops will be available for
+                  every level to help you learn and build.
+                </p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="getting-started">
+            <details>
+              <summary>How do I join a team? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Come solo or with friends! We’ll have team formation activities at the event, and you can also join
+                  the Discord beforehand to connect with others looking for a team.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="getting-started">
+            <details>
+              <summary>Can I start my project early? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>No, projects must be started during the hackathon. Pre-existing projects are not allowed.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="getting-started">
+            <details>
+              <summary>What is a hackathon? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>A hackathon is an event where students “hack” together creative solutions in 24–48 hours—like apps,
+                  chatbots, interactive dashboards, IoT devices, games, ML models, AI agents, or data science projects.
+                  There’s <strong>no malicious hacking</strong> involved.</p>
+              </div>
+            </details>
+          </div>
+
+          <!-- Event Basics -->
+          <div class="faq-item" data-category="basics" style="display: none;">
+            <details>
+              <summary>What do I win? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>We’re offering <strong>$5K in prizes</strong> across our four main tracks:
+                  <strong>Sustainability, Civic Tech, Education, and Healthcare</strong>. More prize info coming soon.
+                </p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="basics" style="display: none;">
+            <details>
+              <summary>Is it free? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Yes! Participation is completely free. All hackers receive <strong>meals, swag, and access to
+                    workshops and mentors</strong> throughout the event.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="basics" style="display: none;">
+            <details>
+              <summary>Who can attend? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>This event is open to students of any college or university.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="basics" style="display: none;">
+            <details>
+              <summary>What activities will there be? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Check the agenda for a mix of <strong>workshops, activities, and sponsor events</strong> to learn,
+                  take breaks, and network.</p>
+              </div>
+            </details>
+          </div>
+
+          <!-- Logistics & Schedule -->
+          <div class="faq-item" data-category="logistics" style="display: none;">
+            <details>
+              <summary>Where is the event? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>The hackathon is <strong>in person</strong> at the <strong>Duan Family Center for Computing & Data
+                    Sciences</strong> (665 Commonwealth Ave, Boston, MA), across the first three floors.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="logistics" style="display: none;">
+            <details>
+              <summary>Is parking available? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Yes. There is <strong>free two-hour street parking</strong>, and <strong>Agganis Arena Lot A and Lot
+                    C2</strong> offer public parking daily from 7 AM–11 PM. <br><em>Parking passes are not
+                    provided.</em></p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="logistics" style="display: none;">
+            <details>
+              <summary>Do I have to stay overnight? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Overnight stays are encouraged but not required. You may leave at night and return in the morning.
+                  <strong>Air mattresses and sleeping rooms</strong> will be available for all attendees.
+                </p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="logistics" style="display: none;">
+            <details>
+              <summary>Do I have to stay the whole time? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>No, you can come and go as needed, though staying for the full event will help you get the most out
+                  of the experience.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="logistics" style="display: none;">
+            <details>
+              <summary>What should I bring? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Bring your <strong>laptop, charger, and headphones</strong>, plus personal items like a toothbrush,
+                  deodorant, pillow/blanket, or sleeping bag. The building can get cold at night, so warm layers or
+                  blankets are recommended.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="logistics" style="display: none;">
+            <details>
+              <summary>Are there deadlines or acceptances? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <ul>
+                  <li>Acceptances will be sent by <strong>October 20</strong> or earlier.</li>
+                  <li>Applications: Close at capacity.</li>
+                  <li>Waitlist: Available on event day.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <!-- Support & Community -->
+          <div class="faq-item" data-category="support" style="display: none;">
+            <details>
+              <summary>What is the team size limit? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Teams can have <strong>up to 5 members</strong>. We’ll provide team-matching activities to help
+                  everyone find a group.</p>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="support" style="display: none;">
+            <details>
+              <summary>How do I sign up to be a mentor, judge, or volunteer? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <ul>
+                  <li><a href="https://airtable.com/appmORmY9unGbIHj2/shrjZf610FYPssftX" target="_blank">Sign up to be a
+                      mentor</a></li>
+                  <li><a href="https://airtable.com/appmORmY9unGbIHj2/shr3Cy4ousIYMDX8N" target="_blank">Sign up to be a
+                      judge</a></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+          <div class="faq-item" data-category="support" style="display: none;">
+            <details>
+              <summary>Still have a question? <span class="icon">+</span></summary>
+              <div class="faq-answer">
+                <p>Email <strong>imrihus@bu.edu</strong> or <strong>alenakp@bu.edu</strong>.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MENTORS & JUDGES CTA -->
+  <section id="mentors" class="sc-section mentors-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="section-title">Join as a Mentor or Judge</h2>
+        <p class="cta-desc">Help guide the next generation of hackers or evaluate their amazing projects.</p>
+        <div class="cta-buttons">
+          <a class="flat-cta" href="#" target="_blank">Apply as Mentor/Judge</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="site-footer">
-    <p>Hosted by <a href="https://www.bu.edu/spark/" target="_blank">BU Spark!</a> · <a
-        href="mailto:buspark@bu.edu">Contact</a> · <a href="code-of-conduct.html">Code of Conduct</a></p>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="img/CHLogo.png" alt="Civic Hacks Logo">
+      </div>
+      <div class="footer-links">
+        <a href="#mission">Mission</a>
+        <a href="#tracks">Tracks</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#faq">FAQ</a>
+        <a href="code-of-conduct.html">Code of Conduct</a>
+      </div>
+      <div class="footer-socials">
+        <!-- Social icons placeholder -->
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="Twitter">TW</a>
+        <a href="mailto:buspark@bu.edu" aria-label="Email">Email</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Civic Hacks. Hosted by <a href="https://www.bu.edu/spark/" target="_blank">BU Spark!</a></p>
+    </div>
   </footer>
+
+  <script src="js/animations.js"></script>
 </body>
 
 </html>
