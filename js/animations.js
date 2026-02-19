@@ -67,9 +67,9 @@ function initScrollIndicators(container, upArrow, downArrow) {
         const clientHeight = container.clientHeight;
 
         // Tolerance for rounding issues
-        const atTop = scrollTop <= 5;
-        const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
-        const canScroll = scrollHeight > clientHeight + 5;
+        const atTop = scrollTop <= 1;
+        const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+        const canScroll = scrollHeight > clientHeight + 1;
 
         if (canScroll) {
             upArrow.classList.toggle('visible', !atTop);
