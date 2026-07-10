@@ -33,6 +33,7 @@
 
   /* Global Text */
   --text-main: var(--civic-white);
+  --text-muted: var(--civic-silver);
 }
 
 /* Font Declarations linking to local files */
@@ -194,6 +195,16 @@ body {
 .custom-cursor.active::before,
 .custom-cursor.active::after {
   background: var(--civic-white);
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+.track-card:focus-visible,
+.row-summary:focus-visible,
+.file-item:focus-visible {
+  outline: 2px solid var(--civic-neon);
+  outline-offset: 4px;
 }
 
 .site-header {
@@ -799,6 +810,23 @@ body {
   filter: invert(1);
 }
 
+.hero-subline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+  color: var(--civic-silver);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-subline span {
+  border-left: 2px solid var(--civic-purple);
+  padding-left: 0.75rem;
+}
+
 .hero-meta {
   position: absolute;
   bottom: 2rem;
@@ -1124,10 +1152,13 @@ body {
     margin: 0 !important;
   }
 
-  /* Old column classes clean up (can be removed if no longer used elsewhere) */
   .tracks-col-left,
   .tracks-col-right {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    gap: 2rem;
   }
 }
 
@@ -3195,14 +3226,6 @@ summary::-webkit-details-marker {
     padding: 0.15rem 0.4rem;
   }
 
-  #mlh-trust-badge {
-    width: 12% !important;
-    min-width: 50px !important;
-    max-width: 65px !important;
-    right: 1rem !important;
-    top: 0 !important;
-  }
-
   /* ===== MISSION ===== */
   .mission-terminal {
     width: 100%;
@@ -4260,5 +4283,26 @@ summary::-webkit-details-marker {
 
   .details-content {
     padding: 1.25rem 1rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  body {
+    cursor: auto;
+  }
+
+  .custom-cursor {
+    display: none;
   }
 }

@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>CivicHacks 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CivicHacks 2026 at Boston University">
+  <link rel="shortcut icon" type="image/x-icon" href="img/CHLogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+</head>
+<a id="mlh-trust-badge"
+  style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:10000"
+  href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white"
+  target="_blank"><img src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-white.svg"
+    alt="Major League Hacking 2026 Hackathon Season" style="width:100%"></a>
+
+<body>
+  <div class="schematic-layer">
+    <div class="grid-crosshair tl"></div>
+    <div class="grid-crosshair tr"></div>
+    <div class="grid-crosshair bl"></div>
+    <div class="grid-crosshair br"></div>
+    <!-- <div class="schematic-line"></div> -->
+  </div>
+
+  <div class="custom-cursor"></div>
+
+  <!-- MOBILE NAV TOGGLE -->
+  <button class="mobile-nav-toggle" aria-label="Toggle Menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" data-lenis-prevent>
+    <div class="mobile-menu-header">&gt;&gt; NAVIGATION_SYSTEM v2.6 // CIVIC_HACKS</div>
+    <nav class="mobile-nav-links">
+      <div class="mobile-nav-dropdown">
+        <button class="mobile-link dropdown-trigger" data-text="IMPORTANT LINKS" data-index="01">IMPORTANT
+          LINKS</button>
+        <div class="mobile-dropdown-content">
+          <a href="https://civic-hacks-2026.devpost.com/" target="_blank" class="mobile-sublink">DEVPOST</a>
+          <a href="https://discord.gg/6m2CBKVMuE" target="_blank" class="mobile-sublink">DISCORD</a>
+          <a href="https://docs.google.com/document/d/1m5GQ252mD0E--fzDPQ3w4-0i-VdTAH3wOy6sAGdLZn4/edit?usp=sharing"
+            target="_blank" class="mobile-sublink">LINKS DOC</a>
+        </div>
+      </div>
+      <a href="#mission" class="mobile-link" data-text="MISSION" data-index="02">MISSION</a>
+      <a href="#tracks" class="mobile-link" data-text="TRACKS" data-index="03">TRACKS</a>
+      <a href="#prizes-hybrid" class="mobile-link" data-text="PRIZES" data-index="04">PRIZES</a>
+      <a href="#sponsors" class="mobile-link" data-text="SPONSORS" data-index="05">SPONSORS</a>
+      <a href="#schedule" class="mobile-link" data-text="AGENDA" data-index="06">AGENDA</a>
+      <a href="#faq" class="mobile-link" data-text="FAQ" data-index="07">FAQ</a>
+      <a href="#mentors" class="mobile-link" data-text="MENTORS/JUDGES" data-index="08">MENTORS/JUDGES</a>
+    </nav>
+    <div class="mobile-menu-cta">
+      <a href="https://airtable.com/appmORmY9unGbIHj2/shrdXMFlPtuSgR7jS" target="_blank" rel="noopener noreferrer"
+        class="neon-btn">
+        APPLY_NOW <span class="btn-glitch"></span>
+      </a>
+    </div>
+    <div class="scroll-indicator up"></div>
+    <div class="mobile-menu-footer"><span class="status-dot-mobile"></span> SYS_READY // 2026</div>
+    <div class="scroll-indicator down"></div>
+  </div>
+
+  <!-- VERTICAL HUD NAVIGATION -->
+  <nav class="hud-nav">
+    <div class="hud-logo">
+      <img src="img/CHLogo.png" alt="Civic Hacks" class="hud-logo-icon">
+      <img src="img/svg/civic-hacks-text-logo.svg" alt="Civic Hacks" class="hud-logo-text">
+    </div>
+    <div class="hud-nav-scroll-wrapper">
+      <div class="hud-links" data-lenis-prevent>
+        <div class="hud-dropdown">
+          <button class="hud-link dropdown-trigger" data-text="LINKS">LINKS</button>
+          <div class="hud-dropdown-content">
+            <a href="https://civic-hacks-2026.devpost.com/" target="_blank" class="hud-sublink">DEVPOST</a>
+            <a href="https://discord.gg/6m2CBKVMuE" target="_blank" class="hud-sublink">DISCORD</a>
+            <a href="https://docs.google.com/document/d/1m5GQ252mD0E--fzDPQ3w4-0i-VdTAH3wOy6sAGdLZn4/edit?usp=sharing"
+              target="_blank" class="hud-sublink">LINKS DOC</a>
+          </div>
+        </div>
+        <a href="#mission" class="hud-link" data-text="MISSION">MISSION</a>
+        <a href="#tracks" class="hud-link" data-text="TRACKS">TRACKS</a>
+        <a href="#prizes-hybrid" class="hud-link" data-text="PRIZES">PRIZES</a>
+        <a href="#sponsors" class="hud-link" data-text="SPONSORS">SPONSORS</a>
+        <a href="#schedule" class="hud-link" data-text="AGENDA">AGENDA</a>
+        <a href="#faq" class="hud-link" data-text="FAQ">FAQ</a>
+        <a href="#mentors" class="hud-link" data-text="MENTORS/JUDGES">MENTORS/JUDGES</a>
+      </div>
+      <div class="scroll-indicator up"></div>
+      <div class="scroll-indicator down"></div>
+    </div>
+    <div class="hud-cta">
+      <a href="https://airtable.com/appmORmY9unGbIHj2/shrdXMFlPtuSgR7jS" target="_blank" rel="noopener noreferrer"
+        class="neon-btn">
+        APPLY_NOW <span class="btn-glitch"></span>
+      </a>
+    </div>
+    <div class="hud-status">
+      <span class="status-dot"></span> SYSTEM_ONLINE
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <main class="hero-massive">
+    <div class="hero-container">
+      <div class="hero-glitch-layer" aria-hidden="true">BOSTON UNIVERSITY</div>
+      <h1 class="hero-title">
+        <span class="hero-year">2026</span>
+        <img src="img/svg/civic-hacks-text-logo.svg" alt="Civic Hacks 2026" class="hero-logo">
+      </h1>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">LOCATION_</span>
+          <span class="meta-val">BOSTON_U / CCDS</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">DATE_</span>
+          <span class="meta-val">FEB 21-22</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MISSION SECTION -->
+  <section id="mission" class="sc-section mission-section">
+    <div class="container">
+      <div class="mission-terminal">
+        <div class="terminal-header">
+          <span class="term-dot danger"></span>
+          <span class="term-dot warning"></span>
+          <span class="term-dot success"></span>
+          <span class="term-title">MISSION_STATEMENT.exe</span>
+        </div>
+        <div class="terminal-body reveal-text">
+          <p class="mission-text-line">> INITIALIZING MISSION_PROTOCOL...</p>
+          <p class="mission-text-line">> UPLOADING_PARAMS: INNOVATION, COLLABORATION, IMPACT</p>
+          <br>
+          <h2 class="mission-statement">
+            <span class="mission-body-text">BRINGING TOGETHER THE BRIGHTEST MINDS TO DEPLOY REAL-WORLD SOLUTIONS.</span>
+          </h2>
+          <br>
+          <p class="mission-subtext">We believe in the power of code to compile meaningful change in our communities.
+            Join us for a weekend of high-velocity innovation.</p>
+          <br>
+          <p class="mission-text-line" style="margin-top: 3rem;">> STATUS: WAITING_FOR_INPUT...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACKS SECTION -->
+  <section id="tracks" class="sc-section tracks-section">
+    <div class="container">
+      <h2 class="section-title reveal-text">Tracks</h2>
+      <div class="tracks-grid">
+        <div class="tracks-col-left">
+          <!-- Card 1: EcoHack (Top Left) -->
+          <div class="track-card">
+            <div class="track-content">
+              <h3 class="track-name">EcoHack</h3>
+              <p class="track-desc">Build solutions that address environmental and sustainability challenges using
+                science, data, and technology.</p>
+              <div class="track-details">
+                <p>EcoHack challenges participants to design technology-driven solutions that address pressing
+                  environmental and ecological issues. Teams will work at the intersection of environmental science,
+                  biology, sustainability, and data to tackle challenges such as food equity, waste management, climate
+                  resilience, and ecosystem health. With guidance and real-world context from sustainability experts,
+                  researchers, and community partners, participants are encouraged to create tools that promote
+                  environmental justice, conservation, and long-term planetary health.</p>
+                <br>
+                <div class="track-tags">
+                  <span class="track-tag-label">FOCUS_AREAS:</span>
+                  <div class="track-tag-list">
+                    <span class="track-tag">EARTH</span>
+                    <span class="track-tag">ENVIRONMENTAL</span>
+                    <span class="track-tag">BIOLOGY</span>
+                    <span class="track-tag">SUSTAINABILITY</span>
+                  </div>
+                </div>
+              </div>
+              <span class="track-expand-btn">LEARN_MORE +</span>
+            </div>
+          </div>
+
+          <!-- Card 3: CityHack (Bottom Left) -->
+          <div class="track-card">
+            <div class="track-content">
+              <h3 class="track-name">CityHack</h3>
+              <p class="track-desc">Design technology-driven solutions to improve urban life.</p>
+              <div class="track-details">
+                <p>CityHack invites participants to reimagine cities as more equitable, efficient, and livable spaces.
+                  This track focuses on urban challenges shaped by social, economic, and political systems, encouraging
+                  teams to explore how technology can improve city services, civic engagement, housing, transportation,
+                  and community well-being. Drawing inspiration from the Initiative on Cities, teams will work with
+                  urban data and real policy challenges to build solutions that strengthen communities and improve
+                  quality of life in urban environments.</p>
+                <br>
+                <div class="track-tags">
+                  <span class="track-tag-label">FOCUS_AREAS:</span>
+                  <div class="track-tag-list">
+                    <span class="track-tag">SOCIOLOGY</span>
+                    <span class="track-tag">ECONOMICS</span>
+                    <span class="track-tag">POLITICAL_SCI</span>
+                    <span class="track-tag">URBAN_STUDIES</span>
+                  </div>
+                </div>
+              </div>
+              <span class="track-expand-btn">LEARN_MORE +</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tracks-col-right">
+          <!-- Card 2: EduHack (Top Right) -->
+          <div class="track-card">
+            <div class="track-content">
+              <h3 class="track-name">EduHack</h3>
+              <p class="track-desc">Develop innovative tools to support students, educators, and learning environments.
+              </p>
+              <div class="track-details">
+                <p>EduHack challenges participants to innovate within education systems, from K–12 to higher education.
+                  In collaboration with Wheelock and local education partners, teams will explore how
+                  technology—especially AI and data-driven tools—can enhance learning outcomes, support educators, and
+                  promote equitable access to education. Solutions should center students, teachers, and communities,
+                  addressing real challenges in classrooms and educational institutions.</p>
+                <br>
+                <div class="track-tags">
+                  <span class="track-tag-label">FOCUS_AREAS:</span>
+                  <div class="track-tag-list">
+                    <span class="track-tag">EDUCATION</span>
+                    <span class="track-tag">LEARNING_SCI</span>
+                    <span class="track-tag">AI_IN_EDU</span>
+                  </div>
+                </div>
+              </div>
+              <span class="track-expand-btn">LEARN_MORE +</span>
+            </div>
+          </div>
+
+          <!-- Card 4: JusticeHack (Bottom Right) -->
+          <div class="track-card">
+            <div class="track-content">
+              <h3 class="track-name">JusticeHack</h3>
+              <p class="track-desc">Create tools that improve access to justice and promote fairness in legal and
+                criminal justice systems.</p>
+              <div class="track-details">
+                <p>JusticeHack centers on improving access to justice and rethinking legal and criminal justice systems
+                  through technology. Participants will collaborate with legal experts, public defenders, and advocacy
+                  organizations to build tools that increase transparency, fairness, and accessibility within courts,
+                  legal processes, and community justice efforts. This track emphasizes ethical design, social impact,
+                  and real-world applicability, especially for communities most affected by systemic inequities.</p>
+                <br>
+                <div class="track-tags">
+                  <span class="track-tag-label">FOCUS_AREAS:</span>
+                  <div class="track-tag-list">
+                    <span class="track-tag">LAW</span>
+                    <span class="track-tag">SOCIOLOGY</span>
+                    <span class="track-tag">POLITICAL_SCI</span>
+                    <span class="track-tag">CRIMINAL_JUSTICE</span>
+                  </div>
+                </div>
+              </div>
+              <span class="track-expand-btn">LEARN_MORE +</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO GALLERY / HIGHLIGHTS -->
+  <section id="gallery" class="sc-section gallery-section">
+    <div class="marquee-wrapper">
+      <div class="marquee-content" id="marquee-1">
+        <!-- Images injected by JS -->
+      </div>
+      <div class="marquee-content" id="marquee-2" aria-hidden="true">
+        <!-- Images injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIZES SECTION -->
+  <section id="prizes-hybrid" class="sc-section prizes-hybrid-section">
+    <div class="container">
+      <h2 class="section-title reveal-text">PRIZES</h2>
+
+      <div class="hybrid-container reveal-text">
+        <!-- Sidebar Navigation -->
+        <div class="dir-sidebar">
+          <div class="dir-header">./INFO/PRIZES/</div>
+          <ul class="dir-tree">
+            <li class="file-item hybrid-nav-item active" data-cat="hybrid-general">GENERAL_PRIZES</li>
+            <li class="file-item hybrid-nav-item" data-cat="hybrid-mlh">MLH_SEASON</li>
+            <li class="file-item hybrid-nav-item" data-cat="hybrid-tracks">TRACK_CHALLENGES</li>
+          </ul>
+
+        </div>
+
+        <!-- Main Viewer (Displays Cards) -->
+        <div class="hybrid-viewer">
+
+          <!-- GROUP: GENERAL -->
+          <div class="hybrid-category-group active" id="hybrid-general">
+            <h3 class="hybrid-group-title">>> GENERAL_PRIZES</h3>
+            <div class="archive-list">
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">CNT-001</div>
+                  <div class="col-title">BEST OVERALL</div>
+                  <div class="col-badge">SPARK!</div>
+                  <div class="col-val">$750</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">BU Spark!</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Premium Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">The ultimate recognition for the project demonstrating superior technical
+                        execution, exceptional civic impact, and a visionary approach to urban problem-solving.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Original Research -->
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">CNT-002</div>
+                  <div class="col-title">ORIGINAL RESEARCH</div>
+                  <div class="col-badge">SPARK!</div>
+                  <div class="col-val">$300</div>
+
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">BU Spark! / Libraries</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">$300</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Impactful application of data obtained through primary research or
+                        collaboration with BU Libraries.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">CNT-003</div>
+                  <div class="col-title">RESPONSIBLE AI</div>
+                  <div class="col-badge">AVANADE</div>
+                  <div class="col-val">$750</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">Avanade</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Choice of: Nintendo Switch, Meta Quest 2, Drone, Portable
+                        Monitor, Bose Headphones, or Mechanical Keyboard.</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Rewarding the most ethical and responsible use of AI models in a civic
+                        context.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">CNT-004</div>
+                  <div class="col-title">OPEN SOURCE AI</div>
+                  <div class="col-badge">RED HAT</div>
+                  <div class="col-val">$750</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">Red Hat</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Premium Open Source Developer Kit & Red Hat Exclusive
+                        Gear</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Awarded to the team that best uses open-source AI to build a civic impact
+                        project.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">CNT-005</div>
+                  <div class="col-title">BLOCKCHAIN CIVIC</div>
+                  <div class="col-badge">ALLIUM</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">Allium Labs</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Utilize professional-grade blockchain data for civic-minded
+                        applications.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- GROUP: MLH -->
+          <div class="hybrid-category-group" id="hybrid-mlh">
+            <h3 class="hybrid-group-title">>> MLH_SEASON</h3>
+            <div class="archive-list">
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">MLH-01</div>
+                  <div class="col-title">BEST USE OF GEMINI API</div>
+                  <div class="col-badge">MLH</div>
+                  <div class="col-val">Prize Pack</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">MLH</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Google Swag Kits</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Build a chatbot that gives personalized advice or summarizes complex
+                        research papers. Understand language like a human, analyze info like a supercomputer, and
+                        generate creative content like code, scripts, music, and more.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">MLH-02</div>
+                  <div class="col-title">BEST USE OF SOLANA</div>
+                  <div class="col-badge">MLH</div>
+                  <div class="col-val">Prize Pack</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">MLH</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Ledger Nano S Plus</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Create a game, social app, or consumer product that relies on instant,
+                        high-frequency transactions. Build prototypes for sophisticated trading, lending, DEX, supply
+                        chain, identity, or payments that can handle massive, real-world volume.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">MLH-03</div>
+                  <div class="col-title">BEST USE OF VULTR</div>
+                  <div class="col-badge">MLH</div>
+                  <div class="col-val">Prize Pack</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">MLH</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Portable Screens</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Vultr empowers hackers to bring high-performance projects to life
+                        instantly, providing everything from one-click deployment and scalable cloud compute to
+                        specialized Vultr Cloud GPUs for AI-driven apps.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">MLH-04</div>
+                  <div class="col-title">BEST USE OF ELEVENLABS</div>
+                  <div class="col-badge">MLH</div>
+                  <div class="col-val">Prize Pack</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">MLH</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Wireless Earbuds</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Deploy natural, human-sounding audio with ElevenLabs. Create realistic,
+                        dynamic, and emotionally expressive voices for any project.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">MLH-05</div>
+                  <div class="col-title">BEST USE OF MONGODB ATLAS</div>
+                  <div class="col-badge">MLH</div>
+                  <div class="col-val">Prize Pack</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">MLH</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">M5Stack IoT Kit</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">MongoDB Atlas takes the leading modern database and makes it accessible
+                        in the cloud.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- GROUP: TRACKS -->
+          <div class="hybrid-category-group" id="hybrid-tracks">
+            <h3 class="hybrid-group-title">>> TRACK_CHALLENGES</h3>
+
+            <h4 class="track-sub-header eco">ECO_HACK</h4>
+            <div class="archive-list mb-4">
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-01</div>
+                  <div class="col-title">BIG BELLY SUSTAINABILITY PRIZE</div>
+                  <div class="col-badge eco">BU SUSTAIN!</div>
+                  <div class="col-val">$300</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">BU Sustainability</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Owala Bottle + Reusable Utensils</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Analyze BU’s smart Big Belly bin data to improve trash and recycling
+                        placement and servicing.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-02</div>
+                  <div class="col-title">AIR QUALITY DATA VIZ</div>
+                  <div class="col-badge eco">MISI</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">MISI</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Cash Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Build a community-facing platform that transforms high-frequency air
+                        quality data into clear, accessible insights.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-03</div>
+                  <div class="col-title">FOOD MAPPING OF BOSTON</div>
+                  <div class="col-badge eco">MISI</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">MISI</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Cash Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Partner with Equitable Food Systems to map and visualize Boston’s food
+                        ecosystem.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="track-sub-header justice">JUSTICE_HACK</h4>
+            <div class="archive-list mb-4">
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-04</div>
+                  <div class="col-title">BEST COURTHACK</div>
+                  <div class="col-badge justice">SPARK!</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">BU Spark!</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Cash Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Using Civera court data for judicial efficiency or transparency.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-05</div>
+                  <div class="col-title">POLICE ACCOUNTABILITY</div>
+                  <div class="col-badge justice">SPARK!</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">BU Spark!</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Cash Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Take data from the Boston Police Index and develop tools and analyses
+                        that can support community organizations.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="track-sub-header edu">EDU_HACK</h4>
+            <div class="archive-list mb-4">
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-06</div>
+                  <div class="col-title">YOUTHHACK PRIZE</div>
+                  <div class="col-badge edu">WHEELOCK</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">BU Wheelock</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Cash Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Best project focused on K-12 educational empowerment.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-07</div>
+                  <div class="col-title">AI TUTOR</div>
+                  <div class="col-badge edu">WHEELOCK</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">BU Wheelock</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Mini Projector & Portable Charger</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Focus on a project centered around building an AI-based tutoring
+                        platform.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="track-sub-header city">CITY_HACK</h4>
+            <div class="archive-list mb-4">
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-08</div>
+                  <div class="col-title">INFRASTRUCTURE ANALYTICS</div>
+                  <div class="col-badge city">CYVL.AI</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">Cyvl.ai</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Cash Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Use real-world geospatial data (sidewalks, pavement, street
+                        infrastructure) from Boston neighborhoods.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="archive-row">
+                <div class="row-summary">
+                  <div class="col-id">TRK-09</div>
+                  <div class="col-title">GATEWAY CITIES HACK</div>
+                  <div class="col-badge city">GBH</div>
+                  <div class="col-val">$500</div>
+                </div>
+                <div class="row-details">
+                  <div class="details-content">
+                    <div class="detail-row">
+                      <span class="detail-label">SPONSOR:</span>
+                      <span class="detail-val">GBH</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">PRIZE:</span>
+                      <span class="detail-val highlight">Cash Gift Card</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">DESC:</span>
+                      <span class="detail-val">Build accessible, data-driven tools that help the public explore life in
+                        MA gateway cities by synthesizing fragmented civic data into clear insights.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sponsors" class="sc-section sponsors-section">
+    <div class="container">
+      <h2 class="section-title reveal-text">SPONSORS</h2>
+      <div class="sponsors-wrapper">
+        <div class="sponsor-tier-group">
+          <h3 class="sponsor-tier-title"><span class="tier-arrows">>></span> PLATINUM_TIER</h3>
+          <div class="sponsors-grid tier-platinum">
+            <a href="https://www.mullenfdn.org" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="Mullen Family" style="--scale: 1.7; --scale-mobile: 1.5;">
+              <img src="img/sponsors/mullen.png" alt="Mullen Family">
+            </a>
+          </div>
+        </div>
+
+        <div class="sponsor-tier-group">
+          <h3 class="sponsor-tier-title"><span class="tier-arrows">>></span> GOLD_TIER</h3>
+          <div class="sponsors-grid tier-gold">
+            <a href="https://www.avanade.com" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="Avanade" style="--scale: 1.3; --scale-mobile: 1.05;">
+              <img src="img/sponsors/AVANADE.png" alt="Avanade">
+            </a>
+            <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="Red Hat" style="--scale: 1.2; --scale-mobile: 0.80;">
+              <img src="img/sponsors/red-hat.svg" alt="Red Hat">
+            </a>
+          </div>
+        </div>
+
+        <div class="sponsor-tier-group">
+          <h3 class="sponsor-tier-title"><span class="tier-arrows">>></span> PARTNERS</h3>
+          <div class="sponsors-grid tier-silver">
+            <a href="https://www.allium.so" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="Allium Labs" style="--scale: 1.3; --scale-mobile: 0.7;">
+              <img src="img/sponsors/allium.png" alt="Allium Labs">
+            </a>
+            <a href="https://www.cyvl.ai" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="Cyvl.ai" style="--scale: 1.1; --scale-mobile: 0.6;">
+              <img src="img/sponsors/CYVLAI.png" alt="Cyvl.ai">
+            </a>
+            <a href="https://www.wgbh.org/news" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="GBH News" style="--scale: 1; --scale-mobile: 1.3;">
+              <img src="img/sponsors/GBH%20NEWS.ico" alt="GBH News">
+            </a>
+            <a href="https://sites.bu.edu/misi/" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="MISI" style="--scale: .9; --scale-mobile: 1.0;">
+              <img src="img/sponsors/misi.png" alt="MISI">
+            </a>
+            <a href="https://pit-un.org" target="_blank" rel="noopener noreferrer" class="sponsor-logo"
+              data-name="PIT-UN" style="--scale: 1.4; --scale-mobile: .7;">
+              <img src="img/sponsors/pit-un-white-lettering.png" alt="PIT-UN">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule" class="sc-section schedule-section">
+    <div class="container">
+      <h2 class="section-title reveal-text">AGENDA</h2>
+
+      <div class="schedule-note reveal-text"
+        style="max-width: 600px; margin: 0 auto 2rem; border-left: 2px solid var(--civic-purple); padding-left: 1rem; color: var(--civic-silver); font-family: var(--font-mono);">
+        <p style="margin: 0; font-size: 0.9rem;">
+          <strong style="color: var(--civic-white);">Observing Ramadan?</strong> We have set aside quiet spaces for
+          prayer and reflection. Accommodations are available for Suhoor and Iftar upon request. Please let a staff
+          member know how we can support you.
+        </p>
+      </div>
+
+      <div class="schedule-window">
+        <div class="terminal-header">
+          <span class="term-dot danger"></span>
+          <span class="term-dot warning"></span>
+          <span class="term-dot success"></span>
+          <span class="term-title">SCHEDULE_INIT.exe</span>
+        </div>
+
+        <div class="schedule-content">
+          <div class="schedule-tabs reveal-text">
+            <button class="tab-btn active" data-target="day-1">DAY_01 // FEB_21 </button>
+            <button class="tab-btn" data-target="day-2">DAY_02 // FEB_22 </button>
+          </div>
+          <!-- DAY 1 -->
+          <div id="day-1" class="schedule-day active">
+            <div class="compact-log">
+              <!-- 09:00 -->
+              <div class="log-row">
+                <div class="log-time">09:00</div>
+                <div class="log-event">Registration & Breakfast</div>
+                <div class="log-loc">2ND_FLOOR</div>
+              </div>
+
+              <!-- 10:00 -->
+              <div class="log-row">
+                <div class="log-time">10:00</div>
+                <div class="log-event">Opening Session</div>
+                <div class="log-loc">17TH_FLOOR</div>
+              </div>
+
+              <!-- 11:00 -->
+              <div class="log-row">
+                <div class="log-time">11:00</div>
+                <div class="log-event">Team Formation (Track Immersion)</div>
+                <div class="log-loc">VARIOUS</div>
+              </div>
+
+              <!-- 11:45 WORKSHOPS ROUND 1 -->
+              <div class="log-group-row">
+                <div class="log-time">11:45</div>
+                <div class="log-group-content">
+                  <div class="log-sub-item">
+                    <span class="log-title">Figma for Civic Prototypes</span>
+                    <span class="log-loc-tag">263</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title">Open Source AI (Red Hat)</span>
+                    <span class="log-loc-tag">264</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title">Blockchain for Impact</span>
+                    <span class="log-loc-tag">262</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title">Prompt Dojo (Cyvl)</span>
+                    <span class="log-loc-tag">164</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 12:00 HACKING BEGINS -->
+              <div class="log-row highlight">
+                <div class="log-time">12:00</div>
+                <div class="log-event">HACKING BEGINS!</div>
+                <div class="log-loc">17TH_FLOOR</div>
+              </div>
+              <div class="log-row">
+                <div class="log-time">12:00</div>
+                <div class="log-event">Islamic Prayer #1</div>
+                <div class="log-loc">RM B63</div>
+              </div>
+
+              <!-- 12:30 WORKSHOPS ROUND 2 -->
+              <div class="log-group-row">
+                <div class="log-time">12:30</div>
+                <div class="log-group-content">
+                  <div class="log-sub-item">
+                    <span class="log-title">Responsible AI Frameworks</span>
+                    <span class="log-loc-tag">262</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title">Claude Code Mob Build</span>
+                    <span class="log-loc-tag">263</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title">Building Chatbots w/ APIs</span>
+                    <span class="log-loc-tag">264</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 13:30 LUNCH -->
+              <div class="log-row">
+                <div class="log-time">13:30</div>
+                <div class="log-event">Lunch + Group Photo</div>
+                <div class="log-loc">2ND_FLOOR</div>
+              </div>
+
+              <!-- 14:45 WORKSHOPS ROUND 3 -->
+              <div class="log-group-row">
+                <div class="log-time">14:45</div>
+                <div class="log-group-content">
+                  <div class="log-sub-item">
+                    <span class="log-title">Hacking w/ GitHub Copilot</span>
+                    <span class="log-loc-tag">262</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title">Fullstack API Crash Course</span>
+                    <span class="log-loc-tag">264</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 15:00 EXPO -->
+              <div class="log-row">
+                <div class="log-time">15:00</div>
+                <div class="log-event">Opportunity Expo (Ends 17:00)</div>
+                <div class="log-loc">2ND_FLOOR</div>
+              </div>
+              <div class="log-row">
+                <div class="log-time">15:00</div>
+                <div class="log-event">Islamic Prayer #2</div>
+                <div class="log-loc">RM B63</div>
+              </div>
+
+              <!-- 16:30 WORKSHOPS ROUND 4 -->
+              <div class="log-group-row">
+                <div class="log-time">16:30</div>
+                <div class="log-group-content">
+                  <div class="log-sub-item">
+                    <span class="log-title">Intro to FastAPI</span>
+                    <span class="log-loc-tag">263</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title">Google AI Studio</span>
+                    <span class="log-loc-tag">262</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 17:20 PRAYER / IFTAR -->
+              <div class="log-row">
+                <div class="log-time">17:20</div>
+                <div class="log-event">Islamic Prayer #3</div>
+                <div class="log-loc">RM B63</div>
+              </div>
+              <div class="log-row">
+                <div class="log-time">17:30</div>
+                <div class="log-event">Iftar Dinner (Observing Only)</div>
+                <div class="log-loc">TBD</div>
+              </div>
+
+              <!-- 19:00 DINNER -->
+              <div class="log-row">
+                <div class="log-time">19:00</div>
+                <div class="log-event">Dinner</div>
+                <div class="log-loc">2ND_FLOOR</div>
+              </div>
+
+              <!-- 20:00 EVENING -->
+              <div class="log-row">
+                <div class="log-time">20:00</div>
+                <div class="log-event">Evening Activities (Games/Movie)</div>
+                <div class="log-loc">VARIOUS</div>
+              </div>
+
+            </div>
+          </div> <!-- END DAY 1 -->
+
+          <!-- DAY 2 -->
+          <div id="day-2" class="schedule-day">
+            <div class="compact-log">
+
+              <!-- 05:30 PRE-FAST -->
+              <div class="log-row">
+                <div class="log-time">05:30</div>
+                <div class="log-event">Pre-fast Meal (Observing Only)</div>
+                <div class="log-loc">TBD</div>
+              </div>
+
+              <!-- 08:00 BREAKFAST -->
+              <div class="log-row">
+                <div class="log-time">08:00</div>
+                <div class="log-event">Breakfast & Mingling</div>
+                <div class="log-loc">2ND_FLOOR</div>
+              </div>
+
+              <!-- 10:00 DEADLINE -->
+              <div class="log-row highlight">
+                <div class="log-time">10:00</div>
+                <div class="log-event">PROJECT SUBMISSIONS DUE</div>
+                <div class="log-loc">DEVPOST</div>
+              </div>
+
+              <!-- 11:00 TRAINING -->
+              <div class="log-row">
+                <div class="log-time">11:00</div>
+                <div class="log-event">Judge Training</div>
+                <div class="log-loc">TBD</div>
+              </div>
+
+              <!-- 11:30 DEMOS -->
+              <div class="log-group-row">
+                <div class="log-time">11:30</div>
+                <div class="log-group-content">
+                  <div class="log-sub-item">
+                    <span class="log-title">Project Demos (Expo Style)</span>
+                    <span class="log-loc-tag">VARIOUS</span>
+                  </div>
+                  <div class="log-sub-item">
+                    <span class="log-title" style="color:#888;">Judges will rotate to tables</span>
+                    <span class="log-loc-tag">---</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 12:00 PRAYER -->
+              <div class="log-row">
+                <div class="log-time">12:00</div>
+                <div class="log-event">Islamic Prayer #1</div>
+                <div class="log-loc">RM B63</div>
+              </div>
+
+              <!-- 13:00 LUNCH -->
+              <div class="log-row">
+                <div class="log-time">13:00</div>
+                <div class="log-event">Lunch & Judge Deliberations</div>
+                <div class="log-loc">2ND_FLOOR</div>
+              </div>
+
+              <!-- 14:45 CLOSING -->
+              <div class="log-row highlight">
+                <div class="log-time">14:45</div>
+                <div class="log-event">Closing Ceremony & Awards</div>
+                <div class="log-loc">17TH_FLOOR</div>
+              </div>
+
+              <!-- 15:00 PRAYER -->
+              <div class="log-row">
+                <div class="log-time">15:00</div>
+                <div class="log-event">Islamic Prayer #2</div>
+                <div class="log-loc">RM B63</div>
+              </div>
+
+            </div>
+          </div> <!-- END DAY 2 -->
+
+        </div>
+      </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section id="faq" class="sc-section faq-section">
+    <div class="container">
+      <div class="term-split-layout">
+        <div class="term-sidebar">
+          <h2 class="section-title reveal-text">FAQ</h2>
+          <div class="term-control-panel reveal-text">
+            <div class="panel-header">>> EXECUTE_QUERY_FILTER</div>
+            <div class="term-filters">
+              <button class="term-filter-btn" data-category="all">./show_all</button>
+              <button class="term-filter-btn active" data-category="getting-started">./getting_started</button>
+              <button class="term-filter-btn" data-category="basics">./event_basics</button>
+              <button class="term-filter-btn" data-category="logistics">./logistics</button>
+              <button class="term-filter-btn" data-category="support">./support</button>
+            </div>
+            <div class="panel-status">
+              <span class="blink">_</span> WAITING FOR INPUT
+            </div>
+          </div>
+        </div>
+
+        <div class="term-content reveal-text">
+          <div class="console-header">>> CONSOLE_OUTPUT:</div>
+          <div class="faq-console-list">
+
+            <!-- Getting Started -->
+            <div class="faq-item" data-category="getting-started">
+              <details>
+                <summary><span class="prompt">></span> ./check_experience_req.sh <span class="faq-comment">// Do I need
+                    experience?</span></summary>
+                <div class="console-response">
+                  <p>OUTPUT: No! Open to all levels. Mentors/Workshops: AVAILABLE.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="getting-started">
+              <details>
+                <summary><span class="prompt">></span> ./init_team_formation.exe <span class="faq-comment">// How do I
+                    join a team?</span></summary>
+                <div class="console-response">
+                  <p>OUTPUT: Solo or party mode enabled. Team matching events scheduled. <br>Discord channel: ACTIVE.
+                  </p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="getting-started">
+              <details>
+                <summary><span class="prompt">></span> ./verify_start_time.sh <span class="faq-comment">// Can I start
+                    early?</span></summary>
+                <div class="console-response">
+                  <p>NEGATIVE. Projects must start at event launch. Pre-existing projects are not allowed.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="getting-started">
+              <details>
+                <summary><span class="prompt">></span> man hackathon <span class="faq-comment">// What is a
+                    hackathon?</span></summary>
+                <div class="console-response">
+                  <p>DEFINITION: 24-48h coding sprint. <br>TARGETS: Apps, IoT, AI, Data. <br>CRITICAL: No malicious
+                    hacking involved.</p>
+                </div>
+              </details>
+            </div>
+
+            <!-- Event Basics -->
+            <div class="faq-item" data-category="basics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./list_prizes.sh --verbose <span class="faq-comment">// What do I
+                    win?</span></summary>
+                <div class="console-response">
+                  <p>Total Pool: $5K. <br>Tracks: EcoHack, CityHack, EduHack, JusticeHack. <br>More prize info
+                    coming soon.
+                  </p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="basics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./check_costs.sh --force <span class="faq-comment">// Is it
+                    free?</span></summary>
+                <div class="console-response">
+                  <p>COST: $0.00. <br>INCLUDES: Meals, Swag, Workshops, Mentorship.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="basics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./verify_user_permissions.sh <span class="faq-comment">// Who can
+                    attend?</span></summary>
+                <div class="console-response">
+                  <p>ACCESS: Students from any college or university are welcome.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="basics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./list_events.sh <span class="faq-comment">// What activities are
+                    there?</span></summary>
+                <div class="console-response">
+                  <p>Agenda: Workshops, Sponsor Events, Networking, Breaks.</p>
+                </div>
+              </details>
+            </div>
+
+            <!-- Logistics -->
+            <div class="faq-item" data-category="logistics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ping location <span class="faq-comment">// Where is it?</span>
+                </summary>
+                <div class="console-response">
+                  <p>HOST: Duan Family Center (CDS). <br>ADDR: 665 Commonwealth Ave, Boston MA.
+                  </p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="logistics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./scan_parking_lots.sh <span class="faq-comment">// Is there
+                    parking?</span></summary>
+                <div class="console-response">
+                  <p>STREET: 2hr Free. <br>GARAGES: Agganis Arena Lot A/C2 (7AM-11PM). <br>NOTE: Passes not provided.
+                  </p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="logistics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./check_curfew_protocols.sh <span class="faq-comment">// Staying
+                    overnight?</span></summary>
+                <div class="console-response">
+                  <p>OVERNIGHT: Optional. <br>AMENITIES: Air mattresses & sleeping rooms available.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="logistics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./attendance_check.sh <span class="faq-comment">// Can I
+                    leave?</span></summary>
+                <div class="console-response">
+                  <p>STATUS: Flexible. Come and go allowed. <br>RECOMMENDATION: Stay full duration for optimal exp.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="logistics" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> cat inventory_list.txt <span class="faq-comment">// What to
+                    bring?</span></summary>
+                <div class="console-response">
+                  <p>REQUIRED: Laptop, Charger, Headphones. <br>PERSONAL: Toothbrush, Deodorant, Sleeping Bag. <br>WARN:
+                    Night temps low. Bring layers.</p>
+                </div>
+              </details>
+            </div>
+
+
+            <!-- Support -->
+            <div class="faq-item" data-category="support" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> grep "MAX_TEAM_SIZE" config <span class="faq-comment">// Team
+                    size limit?</span></summary>
+                <div class="console-response">
+                  <p>MAX_TEAM_SIZE = 5. <br>Matching services available.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="support" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> man code_of_conduct <span class="faq-comment">// Code of
+                    Conduct?</span></summary>
+                <div class="console-response">
+                  <p>STATUS: ACTIVE. See <a href="code-of-conduct.html" target="_blank">MLH_CODE_OF_CONDUCT</a>.</p>
+                </div>
+              </details>
+            </div>
+            <div class="faq-item" data-category="support" style="display: none;">
+              <details>
+                <summary><span class="prompt">></span> ./contact_support.sh <span class="faq-comment">// Contact
+                    info?</span></summary>
+                <div class="console-response">
+                  <p>MAILTO: imrihus@bu.edu</p>
+                </div>
+              </details>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENTORS & JUDGES CTA -->
+  <section id="mentors" class="sc-section mentors-section">
+    <div class="container">
+
+      <div class="mentors-system-pane">
+        <div class="sys-pane-header">
+          <span class="sys-msg">>> SYSTEM_MSG: RECRUITMENT_PROTOCOL_INIT</span>
+          <span class="sys-id">ID: 0x2A</span>
+        </div>
+        <div class="card-content">
+          <h2 class="section-title reveal-text">JOIN_THE_MISSION!</h2>
+          <p class="role-desc">Help guide the next generation of hackers or evaluate their amazing projects.</p>
+          <div class="sys-decor-line"></div>
+          <a class="role-btn neon-cta" href="https://airtable.com/appmORmY9unGbIHj2/shrFiQs0elu1h8dbh"
+            target="_blank">BE A MENTOR OR JUDGE >></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="system-footer-bar">
+      <div class="sys-col">
+        <span class="sys-label">SYSTEM_ID:</span>
+        <span class="sys-val">CIVIC_HACKS_2026</span>
+      </div>
+      <div class="sys-col">
+        <span class="sys-label">HOST:</span>
+        <a href="https://www.bu.edu/spark/" target="_blank" class="sys-link">BU_SPARK!</a>
+      </div>
+      <div class="sys-col">
+        <span class="sys-label">RULES:</span>
+        <a href="code-of-conduct.html" class="sys-link">CODE_OF_CONDUCT</a>
+      </div>
+      <div class="sys-col">
+        <span class="sys-label">HELP:</span>
+        <a href="mailto:buspark@bu.edu" class="sys-link">CONTACT_ADMIN</a>
+      </div>
+      <div class="sys-col footer-logos">
+        <a href="https://www.bu.edu/cds-faculty/" target="_blank" rel="noopener noreferrer" class="footer-duan-logo">
+          <img src="img/sponsors/duanSparkLogoWhiteText.webp" alt="Duan Family Spark! Initiative">
+        </a>
+        <a href="https://www.bu.edu/spark/" target="_blank" rel="noopener noreferrer" class="footer-spark-logo">
+          <img src="img/sponsors/sparkLogo.svg" alt="BU Spark!">
+        </a>
+      </div>
+      <div class="sys-col footer-legal">
+        <div class="legal-stack">
+          <p class="footer-copyright">Copyright &copy; 2026 Boston University | All rights reserved.</p>
+          <p class="footer-org">Boston University Faculty of Computing &amp; Data Sciences + Duan Family Spark!
+            Initiative</p>
+          <p class="footer-address">665 Commonwealth Avenue, Boston, MA 02215</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING DESKTOP CTA -->
+  <a href="https://airtable.com/appmORmY9unGbIHj2/shrdXMFlPtuSgR7jS" target="_blank" rel="noopener noreferrer"
+    class="floating-cta" id="floating-cta">
+    APPLY_NOW <span class="btn-glitch"></span>
+  </a>
+
+  <script src="js/animations.js"></script>
+</body>
+
+</html>

@@ -311,16 +311,20 @@ const tracksResizeObserver = new ResizeObserver(entries => {
 
 trackCards.forEach(card => {
     tracksResizeObserver.observe(card);
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-expanded', 'false');
 
     const btn = card.querySelector('.track-expand-btn');
     const details = card.querySelector('.track-details');
 
-    card.addEventListener('click', () => {
+    const toggleTrackCard = () => {
         const isActive = card.classList.contains('active');
 
         if (isActive) {
             // Collapse
             card.classList.remove('active');
+            card.setAttribute('aria-expanded', 'false');
             gsap.to(details, {
                 height: 0,
                 opacity: 0,
@@ -332,6 +336,7 @@ trackCards.forEach(card => {
         } else {
             // Expand
             card.classList.add('active');
+            card.setAttribute('aria-expanded', 'true');
             gsap.to(details, {
                 height: "auto",
                 opacity: 1,
@@ -340,6 +345,14 @@ trackCards.forEach(card => {
                 onUpdate: syncTracksLayout // Sync during animation
             });
             btn.innerText = 'CLOSE -';
+        }
+    };
+
+    card.addEventListener('click', toggleTrackCard);
+    card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleTrackCard();
         }
     });
 });
@@ -645,79 +658,8 @@ if (scheduleTabs.length > 0) {
 
 // --- Schedule: Dynamic Active Event Highlighter ---
 function updateTimeIndicator() {
-    // 1. Get the current time
-    // SIMULATED LIVE MODE: Uses real clock time projected onto Day 1 (Feb 21)
-    const now = new Date();
-    // UNCOMMENT THESE LINES FOR PRODUCTION
-    // const now = new Date();
-
-    // FOR DEMO: Force date to Feb 21
-    now.setFullYear(2026);
-    now.setMonth(1); // Feb
-    now.setDate(21); // Day 1
-
-    // Define event days
-    const day1Start = new Date('2026-02-21T05:00:00');
-    const day1End = new Date('2026-02-21T21:00:00'); // Approx end of day
-
-    const day2Start = new Date('2026-02-22T08:00:00');
-    const day2End = new Date('2026-02-22T16:00:00');
-
-    // Select containers
-    const day1Container = document.querySelector('#day-1 .compact-log');
-    const day2Container = document.querySelector('#day-2 .compact-log');
-
-    // Helper to highlight active row
-    const highlightActiveRow = (container, date) => {
-        // 1. Clear existing highlights
-        const allRows = container.querySelectorAll('.log-row, .log-group-row');
-        allRows.forEach(row => row.classList.remove('active-now'));
-
-        // 2. Find the active row
-        const currentHours = date.getHours();
-        const currentMinutes = date.getMinutes();
-        const currentTimeVal = currentHours * 60 + currentMinutes;
-
-        let activeRow = null;
-
-        for (let row of allRows) {
-            const timeEl = row.querySelector('.log-time');
-            if (timeEl) {
-                const [h, m] = timeEl.innerText.trim().split(':').map(Number);
-                const eventTimeVal = h * 60 + m;
-
-                if (eventTimeVal > currentTimeVal) {
-                    // This event is in the future.
-                    // The *previous* row loop iteration was our active event.
-                    break;
-                }
-                activeRow = row; // Updates as we iterate down the list
-            }
-        }
-
-        // 3. Apply active class
-        if (activeRow) {
-            activeRow.classList.add('active-now');
-        }
-    };
-
-    // Logic to determine which day we are on
-    if (now >= day1Start && now <= day1End) {
-        if (day1Container) highlightActiveRow(day1Container, now);
-        // Clear Day 2 just in case
-        if (day2Container) {
-            day2Container.querySelectorAll('.active-now').forEach(el => el.classList.remove('active-now'));
-        }
-    } else if (now >= day2Start && now <= day2End) {
-        if (day2Container) highlightActiveRow(day2Container, now);
-        // Clear Day 1 just in case
-        if (day1Container) {
-            day1Container.querySelectorAll('.active-now').forEach(el => el.classList.remove('active-now'));
-        }
-    } else {
-        // Not during event hours - clear all
-        document.querySelectorAll('.active-now').forEach(el => el.classList.remove('active-now'));
-    }
+    // Real 2027 event days are not published yet, so no agenda row should appear live.
+    document.querySelectorAll('.active-now').forEach(el => el.classList.remove('active-now'));
 }
 
 // Run on load and every minute
@@ -734,7 +676,10 @@ const hybridGroups = document.querySelectorAll('.hybrid-category-group');
 // Category Switching
 if (hybridNavItems.length > 0) {
     hybridNavItems.forEach(item => {
-        item.addEventListener('click', () => {
+        item.setAttribute('role', 'button');
+        item.setAttribute('tabindex', '0');
+
+        const activateHybridGroup = () => {
             // Deactivate all
             hybridNavItems.forEach(nav => nav.classList.remove('active'));
             hybridGroups.forEach(group => group.classList.remove('active'));
@@ -746,6 +691,14 @@ if (hybridNavItems.length > 0) {
             if (targetGroup) {
                 targetGroup.classList.add('active');
             }
+        };
+
+        item.addEventListener('click', activateHybridGroup);
+        item.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                activateHybridGroup();
+            }
         });
     });
 }
@@ -756,9 +709,22 @@ if (archiveRows.length > 0) {
     archiveRows.forEach(row => {
         const summary = row.querySelector('.row-summary');
         if (summary) {
-            summary.addEventListener('click', () => {
+            summary.setAttribute('role', 'button');
+            summary.setAttribute('tabindex', '0');
+            summary.setAttribute('aria-expanded', row.classList.contains('active') ? 'true' : 'false');
+
+            const toggleArchiveRow = () => {
                 // Toggle current
                 row.classList.toggle('active');
+                summary.setAttribute('aria-expanded', row.classList.contains('active') ? 'true' : 'false');
+            };
+
+            summary.addEventListener('click', toggleArchiveRow);
+            summary.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleArchiveRow();
+                }
             });
         }
     });
